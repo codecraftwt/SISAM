@@ -33,7 +33,7 @@ function App() {
       <AboutUsSection />
       <Explore />
 
-      <ServiceCorousal />
+      {/* <ServiceCorousal /> */}
       {/* <Background /> */}
       {/* <TestimonialCard/> */}
       {/* <Testimonial /> */}
