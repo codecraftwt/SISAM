@@ -1,0 +1,266 @@
+.text {
+  height: 100vh;
+  /* display: flex; */
+  /* align-items: center; */
+  /* padding: 2rem 0; */
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  top: 0;
+}
+
+.text-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* .text-illustration {
+  grid-column: 1 / -1; 
+  background-color: #f0f0f0;
+} */
+
+.text-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  padding: 3rem;
+  color: white; 
+  top: 0;
+}
+
+.text-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.subtitle-text {
+  color: #1e293b;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  white-space: nowrap;
+}
+
+.subtitle-line {
+  width: 130.38px;
+  height: 2.98px;
+  background: linear-gradient(90deg, #013567 0%, #FFFFFF 100%);
+  border-radius: 1.49px;
+  position: relative;
+  top: 2.01px;
+  left: 13px;
+}
+
+.text-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.title-welcome {
+  font-size: 46px;
+  font-weight: 700;
+  color: #013567;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.title-brand {
+  font-size: 46px;
+  font-weight: 700;
+   color: #FFC300;
+
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+}
+
+ .experience-card {
+    display: inline-block;
+    background-color: #f0faff;
+    border-radius: 8px;
+    padding: 20px 30px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    width: 200px;
+    height:100px;
+  }
+
+  .people {
+   width: 20px!important;
+   height: 20px !important;
+  }
+
+  .count {
+    font-size: 24px;
+    font-weight: bold;
+    color: #003366; /* Dark blue */
+  }
+
+  .label {
+    font-size: 14px;
+    color: #444;
+  }
+
+  .experience-years-card {
+    display: inline-flex;
+    align-items: center;
+    background-color: #ffc107; /* Yellow */
+    border-radius: 12px;
+    padding: 20px 25px;
+    border: 2px dotted #003366;
+    font-family: Arial, sans-serif;
+    gap: 10px;
+    width: 200px;
+    height:100px;
+    margin-left: 20px;
+  }
+
+  .years {
+    font-size: 32px;
+    font-weight: bold;
+    color: #003366;
+  }
+
+  .text {
+    font-size: 16px;
+    color: #003366;
+    line-height: 1.2;
+  }
+
+.text-description {
+  font-size: 16px;
+  color: #64748b;
+  line-height: 1.6;
+  max-width: 500px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.text-cta {
+  background: #1e293b;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.text-cta:hover {
+  background: #334155;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(30, 41, 59, 0.2);
+}
+
+.text-illustration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Behind the content */
+}
+
+.text-illustration canvas {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .text-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    width: 100%;
+  }
+  
+  .text-illustration {
+    height: 400px;
+    order: -1;
+    width: 100%;
+  }
+  
+  .text-illustration canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+  .title-welcome,
+  .title-brand {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .text {
+    padding: 1rem 0;
+  }
+  
+  .text-container {
+    padding: 0 1rem;
+    gap: 2rem;
+  }
+  
+  .title-welcome,
+  .title-brand {
+    font-size: 2rem;
+  }
+  
+  .text-description {
+    font-size: 1rem;
+  }
+  
+  .text-illustration {
+    height: 300px;
+  }
+  
+  .text-illustration canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+  .world-map {
+    transform: perspective(800px) rotateX(45deg) rotateZ(-30deg);
+  }
+  
+  .map-base {
+    width: 300px;
+    height: 225px;
+  }
+} 
