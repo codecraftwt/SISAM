@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, Suspense, useState } from 'react';
 import { gsap } from 'gsap';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, Sparkles } from '@react-three/drei';
+import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import './Hero.css';
 import Earth from '../models/earth';
 
@@ -13,7 +14,7 @@ const Hero = () => {
   const subtitleRef = useRef(null);
   const heroContentRef = useRef(null);
 
-  const [earthPosition] = useState([1.7, 1.4, -0.9]); 
+  const [earthPosition] = useState([1.7, 1.4, -0.9]);
   const [earthScale] = useState(1.8);
 
   useEffect(() => {
@@ -23,50 +24,41 @@ const Hero = () => {
       heroRef.current,
       { opacity: 0 },
       { opacity: 1, duration: 1, ease: 'power2.out' }
-    );
-
-    tl.fromTo(
-      subtitleRef.current,
-      { x: -400, opacity: 0 },
-      { x: 0, opacity: 1, duration: 1, ease: 'power4.out' },
-      '-=0.6'
-    );
-
-    tl.to({}, { duration: 0.2 });
-
-    tl.fromTo(
-      textContentRef.current,
-      { x: -50, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.8, ease: 'power2.out' },
-      '-=0.5'
-    );
-
-    tl.to({}, { duration: 0.3 });
-
-    tl.fromTo(
-      illustrationRef.current,
-      { x: 50, opacity: 0, scale: 0.8 },
-      { x: 0, opacity: 1, scale: 1, duration: 1, ease: 'back.out(1.7)' },
-      '-=0.6'
-    );
-
-    tl.to({}, { duration: 0.2 });
-
-    tl.fromTo(
-      ctaButtonRef.current,
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' },
-      '-=0.4'
-    );
-
-    tl.to({}, { duration: 0.4 });
-
-    tl.fromTo(
-      heroContentRef.current,
-      { y: 100, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: 'power3.out' },
-      '-=0.4'
-    );
+    )
+      .fromTo(
+        subtitleRef.current,
+        { x: -400, opacity: 0 },
+        { x: 0, opacity: 1, duration: 1, ease: 'power4.out' },
+        '-=0.6'
+      )
+      .to({}, { duration: 0.2 })
+      .fromTo(
+        textContentRef.current,
+        { x: -50, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.8, ease: 'power2.out' },
+        '-=0.5'
+      )
+      .to({}, { duration: 0.3 })
+      .fromTo(
+        illustrationRef.current,
+        { x: 50, opacity: 0, scale: 0.8 },
+        { x: 0, opacity: 1, scale: 1, duration: 1, ease: 'back.out(1.7)' },
+        '-=0.6'
+      )
+      .to({}, { duration: 0.2 })
+      .fromTo(
+        ctaButtonRef.current,
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' },
+        '-=0.4'
+      )
+      .to({}, { duration: 0.4 })
+      .fromTo(
+        heroContentRef.current,
+        { y: 100, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, ease: 'power3.out' },
+        '-=0.4'
+      );
 
     const handleButtonMouseEnter = () => {
       gsap.to(ctaButtonRef.current, {
@@ -75,7 +67,6 @@ const Hero = () => {
         ease: 'power2.out',
       });
     };
-
     const handleButtonMouseLeave = () => {
       gsap.to(ctaButtonRef.current, {
         scale: 1,
@@ -99,6 +90,20 @@ const Hero = () => {
 
   return (
     <section className="hero" ref={heroRef}>
+      <Canvas className="hero-bg-canvas" style={{ position: 'absolute', top: 0, left: 0 }}>
+        <Sparkles
+          count={500}
+          scale={[30, 30, 30]}
+          size={1.0}
+          speed={0.5}
+          opacity={0.8}
+          color="#ffffff"
+        />
+        <EffectComposer>
+          <Bloom luminanceThreshold={0.2} luminanceSmoothing={0.9} height={300} opacity={1.5} />
+        </EffectComposer>
+      </Canvas>
+
       <div className="hero-container">
         <div className="hero-illustration" ref={illustrationRef}>
           <Canvas
@@ -113,16 +118,17 @@ const Hero = () => {
               <Earth position={earthPosition} scale={earthScale} />
             </Suspense>
 
-            <OrbitControls
+            {/* <OrbitControls
               enableZoom={false}
               enablePan={false}
               maxPolarAngle={Math.PI}
               minPolarAngle={0}
-              enableDamping={true}
+              enableDamping
               dampingFactor={0.05}
-            />
+            /> */}
           </Canvas>
         </div>
+
         <div className="hero-content" ref={heroContentRef}>
           <div className="hero-subtitle" ref={subtitleRef}>
             <span className="subtitle-text">INNOVATION & SPEED</span>
@@ -133,11 +139,11 @@ const Hero = () => {
             <span className="title-brand">TO SISAM</span>
           </h1>
           <p className="hero-description">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-            when an unknown printer took a galley.
+      Sisam provides full liner representation to global or niche operators, each a specialist in their own market.
           </p>
-          <button className="hero-cta">Read More →</button>
+          <button className="hero-cta" ref={ctaButtonRef}>
+            Read More →
+          </button>
         </div>
       </div>
     </section>

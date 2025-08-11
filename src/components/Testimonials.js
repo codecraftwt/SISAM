@@ -230,7 +230,7 @@ const styles = {
     position: "relative",
     transformOrigin: "center center",
     cursor: "grab",
-    marginTop: "70px",
+    marginTop: "50px",
   },
   header: {
     display: "flex",

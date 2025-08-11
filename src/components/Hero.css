@@ -1,12 +1,19 @@
+
 .hero {
-  height: 100vh;
-  /* display: flex; */
-  /* align-items: center; */
-  /* padding: 2rem 0; */
   position: relative;
   overflow: hidden;
-  width: 100vw;
+  background: #000814;     
+  width: 100%;
+  height: 100vh;
 }
+
+.hero-bg-canvas {
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;   
+}
+
 
 .hero-container {
   width: 100%;
@@ -37,7 +44,7 @@
 }
 
 .subtitle-text {
-  color: #1e293b;
+  color: #cccdd0;
   font-size: 16px;
   font-weight: 400;
   letter-spacing: 0.1em;
@@ -93,7 +100,7 @@
 
 .hero-description {
   font-size: 16px;
-  color: #64748b;
+  color: #dddfe3;
   line-height: 1.6;
   max-width: 500px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;

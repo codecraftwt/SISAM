@@ -87,8 +87,8 @@ const Hero = () => {
                     </h1>
 
                     <div className="experience-card">
-                        <div className="people">
-                            <img src={people} alt="Leaderboard Icon" />
+                        <div >
+                            <img src={people} className="people" alt="Leaderboard Icon" />
                         </div>
                         <div className="count">10k</div>
                         <div className="label">Experience Team</div>

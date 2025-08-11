@@ -22,7 +22,7 @@ function PlaneModel({ progress, curve }) {
 
   const hasSpunRef = useRef(false);
   const spinStartT = 1 / 3; 
-  const spinThreshold = 0.04; 
+  const spinThreshold = 0.005; 
   const spinProgress = useRef(0);
   const isSpinning = useRef(false);
 
@@ -39,11 +39,11 @@ function PlaneModel({ progress, curve }) {
       const roll = -tangent.x * 1.2;
       ref.current.rotation.z += roll;
       
-      const turbulence = Math.sin(state.clock.getElapsedTime() * 2 + t * 10) * 0.08;
+      const turbulence = Math.sin(state.clock.getElapsedTime() * 2 + t * 10) * 0.02;
       ref.current.position.y += turbulence;
       
       if (propeller) {
-        propeller.rotation.z += 0.5 + Math.abs(Math.sin(state.clock.getElapsedTime() * 8)) * 0.2;
+        propeller.rotation.z += 0.5 + Math.abs(Math.sin(state.clock.getElapsedTime() * 3)) * 0.2;
       }
       
       if (!hasSpunRef.current && Math.abs(t - spinStartT) < spinThreshold) {
@@ -53,7 +53,7 @@ function PlaneModel({ progress, curve }) {
       }
       
       if (isSpinning.current) {
-        spinProgress.current += 0.05; 
+        spinProgress.current += 0.007; 
         if (spinProgress.current >= 1) {
           isSpinning.current = false;
         } else {
@@ -119,7 +119,7 @@ export default function AboutUs3D({ trigger }) {
       gsapObj.current.value = 0;
       animRef.current = gsap.to(gsapObj.current, {
         value: 1,
-        duration: 9,
+        duration: 20,
         ease: 'power2.inOut',
         onUpdate: () => {
           progress.current = gsapObj.current.value;

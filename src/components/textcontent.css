@@ -1,12 +1,11 @@
 .text {
-  height: 100vh;
   /* display: flex; */
   /* align-items: center; */
   /* padding: 2rem 0; */
   position: relative;
   overflow: hidden;
-  width: 100vw;
-  top: 0;
+  top: 50px;
+  left: 100px;
 }
 
 .text-container {
@@ -24,7 +23,6 @@
   position: relative;
   z-index: 1;
   max-width: 800px;
-  padding: 3rem;
   color: white; 
   top: 0;
 }
@@ -37,7 +35,7 @@
 }
 
 .subtitle-text {
-  color: #1e293b;
+  color: #dddfe3;
   font-size: 16px;
   font-weight: 400;
   letter-spacing: 0.1em;
@@ -65,7 +63,7 @@
 }
 
 .title-welcome {
-  font-size: 46px;
+  font-size: 40px;
   font-weight: 700;
   color: #013567;
   text-transform: uppercase;
@@ -78,7 +76,7 @@
 }
 
 .title-brand {
-  font-size: 46px;
+  font-size: 40px;
   font-weight: 700;
    color: #FFC300;
 
@@ -100,21 +98,25 @@
     font-family: Arial, sans-serif;
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
     width: 200px;
-    height:100px;
+    height:70px;
   }
 
   .people {
-   width: 20px!important;
-   height: 20px !important;
+   width: 50px!important;
+   height: 50px !important;
+  margin-left: -160px;
   }
 
   .count {
     font-size: 24px;
     font-weight: bold;
-    color: #003366; /* Dark blue */
+    color: #003366; 
+    margin-left: 20px;
+    margin-top: -50px;
   }
 
   .label {
+    margin-left: 20px;
     font-size: 14px;
     color: #444;
   }
@@ -122,15 +124,16 @@
   .experience-years-card {
     display: inline-flex;
     align-items: center;
-    background-color: #ffc107; /* Yellow */
+    background-color: #ffc107; 
     border-radius: 12px;
     padding: 20px 25px;
     border: 2px dotted #003366;
     font-family: Arial, sans-serif;
     gap: 10px;
     width: 200px;
-    height:100px;
+    height:70px;
     margin-left: 20px;
+    margin-top: -20px;
   }
 
   .years {
