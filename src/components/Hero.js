@@ -1,13 +1,9 @@
 import React, { useEffect, useRef, Suspense, useState } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import './Hero.css';
 import Earth from '../models/earth';
-// import Plane from '../models/Plane'; // Removed Plane import since it will not be used
-
-gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
   const heroRef = useRef(null);
@@ -16,8 +12,9 @@ const Hero = () => {
   const ctaButtonRef = useRef(null);
   const subtitleRef = useRef(null);
   const heroContentRef = useRef(null);
-  const [earthScale, setEarthScale] = useState(1.8);
-  const [earthPosition, setEarthPosition] = useState([0, 0, 0]);
+
+  const [earthPosition] = useState([1.7, 1.4, -0.9]); 
+  const [earthScale] = useState(1.8);
 
   useEffect(() => {
     const tl = gsap.timeline();
@@ -92,27 +89,11 @@ const Hero = () => {
       ctaButtonRef.current.addEventListener('mouseleave', handleButtonMouseLeave);
     }
 
-    // Scroll-triggered Earth animation
-    ScrollTrigger.create({
-      trigger: 'body',
-      start: 'top top',
-      end: 'bottom bottom',
-      onUpdate: (self) => {
-        const progress = self.progress;
-        const newScale = 1.8 - progress * 1.2;
-        const newZ = progress * 4;
-        setEarthScale(Math.max(newScale, 0.3));
-        setEarthPosition([0, 0, newZ]);
-      },
-      scrub: true,
-    });
-
     return () => {
       if (ctaButtonRef.current) {
         ctaButtonRef.current.removeEventListener('mouseenter', handleButtonMouseEnter);
         ctaButtonRef.current.removeEventListener('mouseleave', handleButtonMouseLeave);
       }
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
 

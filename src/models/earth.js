@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 
-export default function Earth({ rotationY = 0, scale = 0.7, positionX = 0 }) {
+export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
   const groupRef = useRef();
   const earthRef = useRef();
   const cloudsRef = useRef();
@@ -28,7 +28,7 @@ export default function Earth({ rotationY = 0, scale = 0.7, positionX = 0 }) {
   return (
     <group
       ref={groupRef}
-      position={[positionX || 0.8, 0.1, 0]}
+      position={position}
       scale={[scale, scale, scale]}
     >
       <mesh ref={cloudsRef} position={[0, -0.5, 0]}>
