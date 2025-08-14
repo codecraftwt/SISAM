@@ -7,21 +7,17 @@ const ThreeDStatCard = () => {
   const cardMesh = useRef();
 
   useEffect(() => {
-    // Sizes
     const width = 370;
     const height = 250;
 
-    // Renderer
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(width, height);
     mountRef.current.appendChild(renderer.domElement);
 
-    // Scene and Camera
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(30, width / height, 0.01, 50);
     camera.position.set(0, 0, 5);
 
-    // Card Geometry and Material
     const geometry = new THREE.BoxGeometry(2.7, 1.5, 0.22, 12, 12, 5);
     const material = [
       new THREE.MeshLambertMaterial({ color: 0xffd600 }), // right
@@ -37,7 +33,6 @@ const ThreeDStatCard = () => {
     scene.add(card);
     cardMesh.current = card;
 
-    // Shadow Plane for subtle shadow effect
     const shadowGeo = new THREE.PlaneGeometry(2.2, 0.9);
     const shadowMat = new THREE.ShadowMaterial({ opacity: 0.14 });
     const shadow = new THREE.Mesh(shadowGeo, shadowMat);
@@ -47,12 +42,10 @@ const ThreeDStatCard = () => {
     shadow.receiveShadow = true;
     scene.add(shadow);
 
-    // Lighting
     const dirLight = new THREE.DirectionalLight(0xffffff, 1.1);
     dirLight.position.set(0, 2, 5);
     scene.add(dirLight);
 
-    // Animate card entrance: pop in from below + scale up
     gsap.fromTo(
       card.position,
       { y: -2 },
@@ -64,7 +57,6 @@ const ThreeDStatCard = () => {
       { x: 1, y: 1, z: 1, duration: 0.9, ease: "elastic.out(1, 0.6)" }
     );
 
-    // Mouse move: 3D tilt effect
     const handlePointerMove = (e) => {
       const bounds = mountRef.current.getBoundingClientRect();
       const x = ((e.clientX - bounds.left) / bounds.width) * 2 - 1; // -1 to 1
@@ -82,7 +74,6 @@ const ThreeDStatCard = () => {
 
     let isMounted = true;
 
-    // Render loop
     const animate = () => {
       if (!isMounted) return;
       renderer.render(scene, camera);
@@ -90,14 +81,12 @@ const ThreeDStatCard = () => {
     };
     animate();
 
-    // Cleanup on unmount
     return () => {
       isMounted = false;
       renderer.domElement.removeEventListener("pointermove", handlePointerMove);
       if (mountRef.current && renderer.domElement.parentNode === mountRef.current) {
         mountRef.current.removeChild(renderer.domElement);
       }
-      // Dispose Three.js resources
       geometry.dispose();
       if (Array.isArray(material)) {
         material.forEach((m) => m.dispose());
@@ -108,12 +97,10 @@ const ThreeDStatCard = () => {
       shadowMat.dispose();
       renderer.dispose();
 
-      // Optional: clear ref to avoid memory leak
       mountRef.current = null;
     };
   }, []);
 
-  // Overlay UI with stat text on top of canvas
   return (
     <div
       style={{

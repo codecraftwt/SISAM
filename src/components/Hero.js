@@ -94,13 +94,13 @@ const Hero = () => {
         <Sparkles
           count={500}
           scale={[30, 30, 30]}
-          size={1.0}
-          speed={0.5}
+          size={1.5}
+          speed={0.6}
           opacity={0.8}
           color="#ffffff"
         />
         <EffectComposer>
-          <Bloom luminanceThreshold={0.2} luminanceSmoothing={0.9} height={300} opacity={1.5} />
+          <Bloom luminanceThreshold={0.5} luminanceSmoothing={0.9} height={300} opacity={1.9} />
         </EffectComposer>
       </Canvas>
 
@@ -110,9 +110,9 @@ const Hero = () => {
             camera={{ position: [0, 0, 3.4], fov: 75 }}
             style={{ background: 'transparent', width: '100%', height: '100%' }}
           >
-            <ambientLight intensity={1.5} />
-            <directionalLight position={[10, 12, 5]} intensity={1} />
-            <pointLight position={[-10, -10, -5]} intensity={0.1} />
+            <ambientLight intensity={1.9} />
+            <directionalLight position={[10, 12, 5]} intensity={10} />
+            <pointLight position={[-10, -10, -5]} intensity={0.9} />
 
             <Suspense fallback={null}>
               <Earth position={earthPosition} scale={earthScale} />

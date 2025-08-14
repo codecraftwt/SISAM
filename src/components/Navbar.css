@@ -18,7 +18,6 @@
   align-items: center;
 }
 
-/* Logo Section */
 .navbar-logo {
   display: flex;
   align-items: center;
@@ -47,7 +46,6 @@
   letter-spacing: 1px;
 }
 
-/* Navigation Items */
 .navbar-main {
   display: flex;
   align-items: center;
@@ -95,12 +93,10 @@
   pointer-events: none;
 }
 
-/* Menu Container */
 .menu-container {
   position: relative;
 }
 
-/* Menu Icon */
 .menu-icon {
   cursor: pointer;
   padding: 8px;
@@ -129,7 +125,6 @@
   display: block;
 }
 
-/* Dropdown Menu */
 .menu-dropdown {
   position: absolute;
   top: 100%;
@@ -227,7 +222,6 @@
   }
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .navbar-container {
     padding: 0 20px;
