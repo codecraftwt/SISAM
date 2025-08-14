@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -29,6 +29,7 @@ import logo3 from "./assets/logo3.png";
 import logo4 from "./assets/logo4.png";
 import logo5 from "./assets/logo5.png";
 import logo6 from "./assets/logo6.png";
+import { gsap } from 'gsap';
 
 import OceanScene from './components/Ocean';
 
@@ -46,12 +47,31 @@ function App() {
    logo5,
    logo6
    ];
+     useEffect(()=>{
+    gsap.to(".section2 .innerDiv",{
+   transform:"translateX(-150%)",
+  // duration:50,
+  scrollTrigger:{
+      trigger:".section2",
+      scroller:"body",
+      markers:true,
+      start:"top 0%",
+      end:"bottom -250%",
+      scrub:2,
+      pin:true
+  }})
+  },[])
 
   return (
     <div className="App">
       <Navbar />
       <SoundPlayer src={soundFile} />
-      <Hero />
+      <div className='section2 w-[100vw] h-[1vh] bg-white'>
+        <div className="innerDiv"></div>
+          <div style={{height:"100vh"}}>
+            <Hero />
+          </div>
+      </div>
       <Services />
       <AboutUsSection />
       <Explore /> 

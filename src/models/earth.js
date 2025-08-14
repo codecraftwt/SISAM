@@ -1,10 +1,11 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, useEffect } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import plane from '../models/aeroplane.glb';
 import TravelingShip from "../components/TravelingShip";
 import TravelingTruck from "../components/TravelingTruck";
+import gsap from "gsap";
 
 
 function latLngToVector3(lat, lng, radius = 1.22, offset = 0.02) {
@@ -120,6 +121,40 @@ export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
       "/textures/earth_clouds.jpg",
     ]
   );
+
+   useEffect(() => {
+    if (!groupRef.current) return;
+    gsap.to(groupRef.current.scale, {
+      x: 3.2,
+      z: 3.2,
+      y: 3.2,
+      duration: 5,
+      delay: 1,
+      yoyo: true,
+      scrollTrigger: {
+        scrub: 2,
+        pin: true,
+      },
+    });
+    gsap.to(groupRef.current.position, {
+      x: -0.8,
+      duration: 1,
+      yoyo: true,
+      scrollTrigger: {
+        scrub: 2,
+        pin: true,
+      },
+    });
+    gsap.to(groupRef.current.rotation, {
+      y:2 * Math.PI,
+      duration: 1,
+      yoyo: true,
+      scrollTrigger: {
+        scrub: 2,
+        pin: true,
+      },
+    });
+  }, [groupRef.current]);
   useFrame((_, delta) => {
     if (groupRef.current) {
       groupRef.current.rotation.y += 0.02 * delta;
