@@ -21,7 +21,7 @@ import ScrollAnimation from './components/ServicesCorousal';
 import SoundPlayer from './components/Sound';
 import soundFile from "../src/sound.mp3"
 import Background from "./components/Background";
-import LogosCarousel from "./components/Image";
+import ImageCarousel3D from "./components/Image";
 import logo from "./assets/logo.png";
 import logo1 from "./assets/logo1.png";
 import logo2 from "./assets/logo2.png";
@@ -30,10 +30,15 @@ import logo4 from "./assets/logo4.png";
 import logo5 from "./assets/logo5.png";
 import logo6 from "./assets/logo6.png";
 import { gsap } from 'gsap';
+import ParticlesCursor from './components/ParticleCursor';
+import ExploreCards from './components/ExploreCards';
+
+import Clouds from './components/Clouds'
+import Overlap from './components/Overlap'
 
 import OceanScene from './components/Ocean';
 
-import TravelingTruck from './components/DoortoDoor';
+import TravelingTruck from './components/OurSolutions';
 
 function App() {
   const sampleTestimonial = "From the very first call, I knew we were in the right hands. [Your Company Name] didn't just deliver a service — they brought our vision to life. We approached them with a vague idea of what we wanted, and they transformed it into something far better than we imagined. The attention to detail, clear communication, and commitment to deadlines were outstanding.";
@@ -47,6 +52,7 @@ function App() {
    logo5,
    logo6
    ];
+     window.__CAROUSEL_IMAGES__ = logoUrls;
      useEffect(()=>{
     gsap.to(".section2 .innerDiv",{
    transform:"translateX(-150%)",
@@ -54,7 +60,7 @@ function App() {
   scrollTrigger:{
       trigger:".section2",
       scroller:"body",
-      markers:true,
+      // markers:true,
       start:"top 0%",
       end:"bottom -250%",
       scrub:2,
@@ -64,23 +70,34 @@ function App() {
 
   return (
     <div className="App">
+
       <Navbar />
       <SoundPlayer src={soundFile} />
       <div className='section2 w-[100vw] h-[1vh] bg-white'>
-        <div className="innerDiv"></div>
           <div style={{height:"100vh"}}>
             <Hero />
           </div>
-      </div>
-      <Services />
-      <AboutUsSection />
-      <Explore /> 
+      </div> 
+      <div className='section3 w-[100vw] h-[100vh] bg-white'>
+          <div style={{height:"100vh"}}>
+                 <Services />
+          </div>
+      </div> 
+     <AboutUsSection />
+
+      <ExploreCards />
+
+      <Form/>
+
       <Footer />  
 
+      {/* <ParticlesCursor/> */}
 
-      {/* <TravelingTruck /> */}
+
+      
 
 
+{/* <Clouds/> */}
       {/* <div style={{height:"100vh"}}><OceanScene /></div> */}
 
 
@@ -89,16 +106,9 @@ function App() {
       {/* <Background /> */}
       {/* <TestimonialCard/> */}
       {/* <Testimonial /> */}
-      {/* <Form/> */}
       {/* < TextContent/> */}
       {/* <div style={{ width: '100%', height: '600px' }}>
-      <LogosCarousel 
-        logos={logoUrls} 
-        logoWidth={1} 
-        logoHeight={0.5} 
-        spacing={0.5} 
-        speed={2} 
-      />
+    
     </div> */}
       {/* <div className="App">
       <TestimonialCard 
@@ -111,7 +121,15 @@ function App() {
 
 
 
+  {/* <div>
+      <ImageCarousel3D images={logoUrls} spacing={3.5} planeSize={[3, 3]} speed={8} />
+    </div> */}
 
+     {/* <Stats/> */}
+
+       {/* <Overlap/> */}
+
+       {/* <TravelingTruck /> */}
 
     </div>
   );
