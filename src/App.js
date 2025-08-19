@@ -38,7 +38,7 @@ import Overlap from './components/Overlap'
 
 import OceanScene from './components/Ocean';
 
-import TravelingTruck from './components/DoortoDoor';
+// import TravelingTruck from './components/DoortoDoor';
 import Cards from './components/Cards';
 import ShipSectipn from './components/ShipSection';
 import CloudScene from './components/Cloud';
@@ -96,7 +96,7 @@ useGLTF.preload("/models/cloud/scene.gltf");
       scroller:"body",
       // // markers:true,
       start:"top 0%",
-      end:"bottom -450%",
+      end:"bottom -450%" ,
       scrub:2,
       pin:true
   }})
@@ -147,8 +147,8 @@ useGLTF.preload("/models/cloud/scene.gltf");
 
       <Services />
       {/* <AboutUsSection />
-      <Explore /> 
-      <Footer />   */}
+      <Explore />  */}
+      {/* <Footer />   */}
 
       
 

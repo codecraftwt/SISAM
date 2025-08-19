@@ -87,7 +87,7 @@ const Services = () => {
 
   return (
     <section className="services" ref={sectionRef}>
-      <OceanScene />
+      {/* <OceanScene /> */}
       <div className="services-container">
         <div className="services-content">
           <h2 className="services-title" ref={titleRef}>Our Services</h2>

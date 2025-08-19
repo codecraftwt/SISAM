@@ -193,7 +193,7 @@ function ShipSectipn() {
       yoyo: true,
       scrollTrigger: {
         start: "top -650%",
-       end: "top -1000%",
+       end: "top -900%",
         scrub: 2,
         pin: true,
         markers: true,
