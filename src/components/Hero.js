@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, Suspense, useState, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Sparkles } from '@react-three/drei';
+import { Sparkles, Cloud } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import './Hero.css';
 import Earth from '../models/earth';
@@ -18,7 +18,7 @@ const Hero = () => {
   const subtitleRef = useRef(null);
   const heroContentRef = useRef(null);
 
-  const [earthPosition] = useState([1.7, 1.4, -0.9]);
+  const [earthPosition] = useState([1.7, 0.5, -0.9]);
   const [earthScale] = useState(1.8);
 
   useEffect(() => {
@@ -64,30 +64,22 @@ const Hero = () => {
         '-=0.4'
       );
 
-    const handleButtonMouseEnter = () => {
-      gsap.to(ctaButtonRef.current, {
-        scale: 1.05,
-        duration: 0.3,
-        ease: 'power2.out',
-      });
+    const handleEnter = () => {
+      gsap.to(ctaButtonRef.current, { scale: 1.05, duration: 0.3 });
     };
-    const handleButtonMouseLeave = () => {
-      gsap.to(ctaButtonRef.current, {
-        scale: 1,
-        duration: 0.3,
-        ease: 'power2.out',
-      });
+    const handleLeave = () => {
+      gsap.to(ctaButtonRef.current, { scale: 1, duration: 0.3 });
     };
 
     if (ctaButtonRef.current) {
-      ctaButtonRef.current.addEventListener('mouseenter', handleButtonMouseEnter);
-      ctaButtonRef.current.addEventListener('mouseleave', handleButtonMouseLeave);
+      ctaButtonRef.current.addEventListener('mouseenter', handleEnter);
+      ctaButtonRef.current.addEventListener('mouseleave', handleLeave);
     }
 
     return () => {
       if (ctaButtonRef.current) {
-        ctaButtonRef.current.removeEventListener('mouseenter', handleButtonMouseEnter);
-        ctaButtonRef.current.removeEventListener('mouseleave', handleButtonMouseLeave);
+        ctaButtonRef.current.removeEventListener('mouseenter', handleEnter);
+        ctaButtonRef.current.removeEventListener('mouseleave', handleLeave);
       }
     };
   }, []);
@@ -119,15 +111,24 @@ const Hero = () => {
           color="#ffffff"
         />
         <EffectComposer>
-          <Bloom luminanceThreshold={0.5} luminanceSmoothing={0.9} height={300} opacity={1.9} />
+          <Bloom
+            luminanceThreshold={0.5}
+            luminanceSmoothing={0.9}
+            height={300}
+            opacity={1.9}
+          />
         </EffectComposer>
       </Canvas>
 
-      <div className="hero-container">
+          <div className="hero-container">
         <div className="hero-illustration" ref={illustrationRef}>
           <Canvas
             camera={{ position: [0, 0, 3.4], fov: 75 }}
-            style={{ background: 'transparent', width: '100%', height: '100%' }}
+            style={{
+              background: 'transparent',
+              width: '100%',
+              height: '100%',
+            }}
           >
             <ambientLight intensity={1.9} />
             <directionalLight position={[10, 12, 5]} intensity={10} />
@@ -161,7 +162,8 @@ const Hero = () => {
             <span className="title-brand">TO SISAM</span>
           </h1>
           <p className="hero-description">
-      Sisam provides full liner representation to global or niche operators, each a specialist in their own market.
+            Sisam provides full liner representation to global or niche
+            operators, each a specialist in their own market.
           </p>
           <button className="hero-cta" ref={ctaButtonRef}>
             Read More →

@@ -21,7 +21,7 @@ import ScrollAnimation from './components/ServicesCorousal';
 import SoundPlayer from './components/Sound';
 import soundFile from "../src/sound.mp3"
 import Background from "./components/Background";
-import LogosCarousel from "./components/Image";
+import ImageCarousel3D from "./components/Image";
 import logo from "./assets/logo.png";
 import logo1 from "./assets/logo1.png";
 import logo2 from "./assets/logo2.png";
@@ -30,6 +30,11 @@ import logo4 from "./assets/logo4.png";
 import logo5 from "./assets/logo5.png";
 import logo6 from "./assets/logo6.png";
 import { gsap } from 'gsap';
+import ParticlesCursor from './components/ParticleCursor';
+import ExploreCards from './components/ExploreCards';
+
+import Clouds from './components/Clouds'
+import Overlap from './components/Overlap'
 
 import OceanScene from './components/Ocean';
 
@@ -69,6 +74,7 @@ useGLTF.preload("/models/cloud/scene.gltf");
    logo5,
    logo6
    ];
+     window.__CAROUSEL_IMAGES__ = logoUrls;
      useEffect(()=>{
     gsap.to(".section2 .innerDiv",{
    transform:"translateX(-450%)",
@@ -88,7 +94,7 @@ useGLTF.preload("/models/cloud/scene.gltf");
   scrollTrigger:{
       trigger:".section3",
       scroller:"body",
-      // markers:true,
+      // // markers:true,
       start:"top 0%",
       end:"bottom -450%",
       scrub:2,
@@ -144,10 +150,10 @@ useGLTF.preload("/models/cloud/scene.gltf");
       <Explore /> 
       <Footer />   */}
 
+      
 
-      {/* <TravelingTruck /> */}
 
-
+{/* <Clouds/> */}
       {/* <div style={{height:"100vh"}}><OceanScene /></div> */}
 
 
@@ -156,16 +162,9 @@ useGLTF.preload("/models/cloud/scene.gltf");
       {/* <Background /> */}
       {/* <TestimonialCard/> */}
       {/* <Testimonial /> */}
-      {/* <Form/> */}
       {/* < TextContent/> */}
       {/* <div style={{ width: '100%', height: '600px' }}>
-      <LogosCarousel 
-        logos={logoUrls} 
-        logoWidth={1} 
-        logoHeight={0.5} 
-        spacing={0.5} 
-        speed={2} 
-      />
+    
     </div> */}
       {/* <div className="App">
       <TestimonialCard 
@@ -178,7 +177,15 @@ useGLTF.preload("/models/cloud/scene.gltf");
 
 
 
+  {/* <div>
+      <ImageCarousel3D images={logoUrls} spacing={3.5} planeSize={[3, 3]} speed={8} />
+    </div> */}
 
+     {/* <Stats/> */}
+
+       {/* <Overlap/> */}
+
+       {/* <TravelingTruck /> */}
 
     </div>
   );

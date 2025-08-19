@@ -37,12 +37,14 @@ function Ocean() {
     [geom, scene.fog, sunDirection, waterNormals]
   );
 
-  useFrame((_, delta) => {
-    if (water.material?.uniforms?.time) {
-      water.material.uniforms.time.value += delta * 1;
-    }
-  });
-
+useFrame((_, delta) => {
+  if (water.material?.uniforms?.time) {
+    water.material.uniforms.time.value += delta * 1;
+  }
+  if (water.material?.uniforms?.waveSpeed) {
+    water.material.uniforms.waveSpeed.value = 0.04; 
+  }
+});
   return (
     <primitive
       ref={waterRef}
@@ -97,7 +99,7 @@ function Ship() {
 
 export default function OceanScene() {
   return (
-    <div id="scroll-wrapper" style={{ height: "200vh" }}>
+    <div id="scroll-wrapper" style={{ height: "200vh",position:"sticky" }}>
       <div style={{ position: "sticky", top: 0, height: "100vh" }}>
         <Canvas camera={{ position: [0, 40, 160], fov: 55 }}>
           <hemisphereLight args={["#ffffff", "#9a9898ff", 0.3]} />
@@ -106,9 +108,9 @@ export default function OceanScene() {
           <Sky
             distance={450000}
             turbidity={10}
-            rayleigh={4}
+            rayleigh={3}
             mieCoefficient={0.005}
-            mieDirectionalG={0.8}
+            mieDirectionalG={0.9}
             inclination={0.49}
             azimuth={0.25}
           />
