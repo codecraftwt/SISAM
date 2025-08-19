@@ -5,7 +5,7 @@ import Hero from './components/Hero';
 import Services from './components/Services';
 import Earth from './models/earth';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, useGLTF } from "@react-three/drei";
 import AboutUsSection from './components/AboutUs';
 import ServiceCorousal from './components/ServicesCorousal';
 import Stats from './components/Stats';
@@ -34,9 +34,31 @@ import { gsap } from 'gsap';
 import OceanScene from './components/Ocean';
 
 import TravelingTruck from './components/DoortoDoor';
+import Cards from './components/Cards';
+import ShipSectipn from './components/ShipSection';
+import CloudScene from './components/Cloud';
 
 function App() {
   const sampleTestimonial = "From the very first call, I knew we were in the right hands. [Your Company Name] didn't just deliver a service — they brought our vision to life. We approached them with a vague idea of what we wanted, and they transformed it into something far better than we imagined. The attention to detail, clear communication, and commitment to deadlines were outstanding.";
+
+
+  
+function CloudModel({ position = [0, 0, 0], scale = 2 }) {
+  const { scene } = useGLTF("/models/cloud/scene.gltf");
+
+  return (
+    <primitive
+      object={scene}
+      scale={scale}
+      position={position}
+      rotation={[0.7, 0.7, 0.2]} // ~40deg,40deg,10deg
+    />
+  );
+}
+
+
+// Preload
+useGLTF.preload("/models/cloud/scene.gltf");
 
  const logoUrls = [
    logo,
@@ -49,14 +71,26 @@ function App() {
    ];
      useEffect(()=>{
     gsap.to(".section2 .innerDiv",{
-   transform:"translateX(-150%)",
+   transform:"translateX(-450%)",
   // duration:50,
   scrollTrigger:{
       trigger:".section2",
       scroller:"body",
-      markers:true,
+      // markers:true,
       start:"top 0%",
-      end:"bottom -250%",
+      end:"bottom -450%",
+      scrub:2,
+      pin:true
+  }})
+    gsap.to(".section3 .innerDiv",{
+   transform:"translateX(-450%)",
+  //  xPercent: -450,
+  scrollTrigger:{
+      trigger:".section3",
+      scroller:"body",
+      // markers:true,
+      start:"top 0%",
+      end:"bottom -450%",
       scrub:2,
       pin:true
   }})
@@ -64,18 +98,51 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar />
-      <SoundPlayer src={soundFile} />
-      <div className='section2 w-[100vw] h-[1vh] bg-white'>
-        <div className="innerDiv"></div>
-          <div style={{height:"100vh"}}>
-            <Hero />
-          </div>
-      </div>
+
+      {/* <Navbar />
+      <SoundPlayer src={soundFile} /> */}
+
+{/* <CloudScene/> */}
+
+              <div className="section2 w-[100vw] h-[1vh] bg-white relative">
+              <div className="innerDiv"></div>
+              <div style={{ height: "100vh" }}>
+                <Hero />
+              </div>
+            </div>
+            {/* <div
+              className="middle-section w-[100vw] h-[100vh] bg-gradient-to-b from-white via-gray-100 to-white relative z-10 -mt-[25vh]"
+              style={{background: "linear-gradient(to bottom, #000814, #c3a264)",height:"50vh"}}
+            >
+              <div className="flex items-center justify-center h-full">
+                <Canvas
+                    style={{ height: "100vh", width: "100vw",background: "linear-gradient(to bottom, #000814, #c3a264)" }}
+                    camera={{ position: [0, 0, 3], fov: 50 }}
+                  >
+                    <ambientLight intensity={0.5} />
+                    <directionalLight position={[5, 5, 5]} intensity={1} />
+                    <CloudModel position={[-4, -1.5, 0]} scale={6} />
+                    <OrbitControls />
+                  </Canvas>
+              </div>
+            </div> */}
+
+      {/* <div style={{height:"100vh"}}/> */}
+
+            <div className="section3 w-[100vw] h-[1vh] bg-white relative">
+              <div className="innerDiv"></div>
+              <div style={{ height: "100vh" }}>
+                <ShipSectipn />
+              </div>
+            </div>
+
+      {/* <div style={{height:"100vh"}}/>
+      <Cards/> */}
+
       <Services />
-      <AboutUsSection />
+      {/* <AboutUsSection />
       <Explore /> 
-      <Footer />  
+      <Footer />   */}
 
 
       {/* <TravelingTruck /> */}

@@ -1,13 +1,13 @@
 import React, { useRef, useMemo, useEffect } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, Cloud } from "@react-three/drei";
 import * as THREE from "three";
-import plane from '../models/aeroplane.glb';
+import plane from "../models/aeroplane.glb";
 import TravelingShip from "../components/TravelingShip";
 import TravelingTruck from "../components/TravelingTruck";
 import gsap from "gsap";
 
-
+// Convert lat/lng → 3D vector
 function latLngToVector3(lat, lng, radius = 1.22, offset = 0.02) {
   const phi = THREE.MathUtils.degToRad(90 - lat);
   const theta = THREE.MathUtils.degToRad(lng);
@@ -105,12 +105,13 @@ function TravelingPlane({ startLat, startLng, endLat, endLng, speed = 0.05, arcH
   return <primitive ref={planeRef} object={scene} scale={0.0025} />;
 }
 
-
-
 export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
   const groupRef = useRef();
   const cloudsRef = useRef();
   const earthRef = useRef();
+
+  const cloudRef = useRef();
+  const cloudRefSecond = useRef();
 
   const [colorMap, normalMap, specularMap, cloudsMap] = useLoader(
     THREE.TextureLoader,
@@ -122,39 +123,99 @@ export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
     ]
   );
 
-   useEffect(() => {
+  // Earth intro animation
+  useEffect(() => {
     if (!groupRef.current) return;
     gsap.to(groupRef.current.scale, {
-      x: 3.2,
-      z: 3.2,
-      y: 3.2,
+      x: 48,
+      z: 48,
+      y: 48,
       duration: 5,
       delay: 1,
       yoyo: true,
       scrollTrigger: {
-        scrub: 2,
+        scrub: 4,
         pin: true,
       },
     });
+
+  //   gsap.to(groupRef.current.scale, {
+  //   keyframes: [
+  //     { x: 2.8, y: 2.8, z: 2.8, duration: 3 },
+  //     { x: 0.0001, y: 0.0001, z: 0.0001, duration: 1 }
+  //   ],
+  //   scrollTrigger: {
+  //     scrub: 4,
+  //     pin: true,
+  //   }
+  // });
+
     gsap.to(groupRef.current.position, {
+      z: -70.8,
       x: -0.8,
+      y: 1,
       duration: 1,
       yoyo: true,
       scrollTrigger: {
-        scrub: 2,
+        scrub: 4,
         pin: true,
       },
     });
     gsap.to(groupRef.current.rotation, {
-      y:2 * Math.PI,
+      y: 2 * Math.PI,
       duration: 1,
       yoyo: true,
       scrollTrigger: {
-        scrub: 2,
+        scrub: 4,
         pin: true,
       },
     });
   }, [groupRef.current]);
+
+  // Clouds GSAP animation
+  useEffect(() => {
+    // if (!cloudRef.current || !cloudRefSecond.current) return;
+    if (!cloudRefSecond.current) return;
+
+    // Cloud 1
+    const targetY = cloudRef.current.position.y;
+    const dummy = { y: -0.5 };
+    gsap.from(dummy, {
+      y: targetY,
+      delay: 6,
+      duration: 6,
+      ease: "power2.out",
+      scrollTrigger: {
+        scrub: 4,
+        pin: true,
+      },
+      onUpdate: () => {
+        if (cloudRef.current) {
+          cloudRef.current.position.y = dummy.y;
+        }
+      },
+    });
+
+    // Cloud 2
+    const target2Y = cloudRefSecond.current.position.y;
+    const dummy2 = { y: 0.5 };
+    gsap.from(dummy2, {
+      y: target2Y,
+      delay: 6,
+      duration: 6,
+      ease: "power2.out",
+      scrollTrigger: {
+        scrub: 4,
+        pin: true,
+      },
+      onUpdate: () => {
+        if (cloudRefSecond.current) {
+          cloudRefSecond.current.position.y = dummy2.y; // ✅ fixed
+        }
+      },
+    });
+  }, []);
+
   useFrame((_, delta) => {
     if (groupRef.current) {
       groupRef.current.rotation.y += 0.02 * delta;
@@ -164,7 +225,6 @@ export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
   const airports = useMemo(
     () => [
       { lat: 20.6413, lng: -77.7781 },
-      { lat: 40.6413, lng: -87.7781 },
       { lat: 40.6413, lng: -87.7781 },
       { lat: 0.9413, lng: -112.7781, name: "y8 down" },
       { lat: -4.9413, lng: -30.7781, name: "ship start" },
@@ -186,105 +246,56 @@ export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
   );
 
   return (
-    <group ref={groupRef} position={position} scale={[scale, scale, scale]} rotation={[0, 4, 0]} >
-      <mesh ref={cloudsRef} position={[0, -0.5, 0]}>
-        <sphereGeometry args={[1.225, 64, 64]} />
-        <meshPhongMaterial
-          map={cloudsMap}
-          opacity={0.4}
-          depthWrite={false}
-          transparent
-          side={THREE.DoubleSide}
-        />
-      </mesh>
-      <mesh ref={earthRef} position={[0, -0.5, 0]}>
-        <sphereGeometry args={[1.22, 64, 64]} />
-        <meshPhongMaterial
-          map={colorMap}
-          normalMap={normalMap}
-          specularMap={specularMap}
-          specular={new THREE.Color("grey")}
-        />
-      </mesh>
+    <>
+      <group ref={groupRef} position={position} scale={[scale, scale, scale]} rotation={[0, 4, 0]}>
+        <mesh ref={cloudsRef} position={[0, -0.5, 0]}>
+          <sphereGeometry args={[1.225, 64, 64]} />
+          <meshPhongMaterial
+            map={cloudsMap}
+            opacity={0.4}
+            depthWrite={false}
+            transparent
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+        <mesh ref={earthRef} position={[0, -0.5, 0]}>
+          <sphereGeometry args={[1.22, 64, 64]} />
+          <meshPhongMaterial
+            map={colorMap}
+            normalMap={normalMap}
+            specularMap={specularMap}
+            specular={new THREE.Color("grey")}
+          />
+        </mesh>
 
-      {airports.map((a, i) => (
-        <AirportMarker key={i} lat={a.lat} lng={a.lng} />
-      ))}
+        {airports.map((a, i) => (
+          <AirportMarker key={i} lat={a.lat} lng={a.lng} />
+        ))}
 
-      <TravelingPlane
-        startLat={20.6413}
-        startLng={-77.7781}
-        endLat={30.9644}
-        endLng={103.9915}
-        speed={0.05}
-      />
+        {/* Planes, Ships, Trucks */}
+        <TravelingPlane startLat={20.6413} startLng={-77.7781} endLat={30.9644} endLng={103.9915} speed={0.05} />
+        <TravelingShip endLat={20.6413} endLng={-77.7781} startLat={0.9413} startLng={-112.7781} speed={0.06} />
+        <TravelingPlane endLat={-24.9413} endLng={-125.7781} startLat={-4.9413} startLng={-30.7781} speed={0.05} arcHeight={1} />
+        <TravelingTruck endLat={-20.9644} endLng={60.9915} startLat={30.9644} startLng={103.9915} speed={0.05} arcHeight={0.4} />
+        <TravelingPlane endLat={-10.9644} endLng={170.9915} startLat={0.9413} startLng={-112.7781} speed={0.05} arcHeight={0.5} />
+        <TravelingPlane startLat={-20.9644} startLng={60.9915} endLat={7.9413} endLng={9.7781} speed={0.05} arcHeight={0.5} />
+        <TravelingTruck endLat={7.9413} endLng={9.7781} startLat={-4.9413} startLng={-30.7781} speed={0.09} arcHeight={0.2} />
+        <TravelingShip startLat={-10.9644} startLng={170.9915} endLat={27.9644} endLng={140.9915} speed={0.2} arcHeight={1500} />
+      </group>
 
-      <TravelingShip
-        endLat={20.6413}
-        endLng={-77.7781}
-        startLat={0.9413}
-        startLng={-112.7781}
-        speed={0.06}
-      />
+      {/* ✅ Clouds wrapped in groups for GSAP */}
+      <group ref={cloudRef} position={[-1.5, -4.2, 2.2]}>
+        <Cloud opacity={1} width={80} depth={10} segments={20} seed={42}  />
+      </group>
 
-      <TravelingPlane
-        endLat={-24.9413}
-        endLng={-125.7781}
-        startLat={-4.9413}
-        startLng={-30.7781}
-        speed={0.05}
-        arcHeight={1}
-      />
+      <group ref={cloudRefSecond} position={[-1.5, -4.8, 3.2]}>
+        <Cloud opacity={2} width={80} depth={10} segments={20} seed={42}  />
+      </group>
 
-
-      <TravelingTruck
-        endLat={-20.9644}
-        endLng={60.9915}
-        startLat={30.9644}
-        startLng={103.9915}
-        speed={0.05}
-        arcHeight={0.4}
-      />
-
-
-      <TravelingPlane
-        endLat={-10.9644}
-        endLng={170.9915}
-        startLat={0.9413}
-        startLng={-112.7781}
-        speed={0.05}
-        arcHeight={0.5}
-      />
-
-      <TravelingPlane
-        startLat={-20.9644}
-        startLng={60.9915}
-        endLat={7.9413}
-        endLng={9.7781}
-        speed={0.05}
-        arcHeight={0.5}
-      />
-
-
-      <TravelingTruck
-        endLat={7.9413}
-        endLng={9.7781}
-        startLat={-4.9413}
-        startLng={-30.7781}
-        speed={0.09}
-        arcHeight={0.2}
-      />
-
-
-      <TravelingShip
-        startLat={-10.9644}
-        startLng={170.9915}
-        endLat={27.9644}
-        endLng={140.9915}
-        speed={0.2}
-        arcHeight={1500}
-      />
-    </group>
+      <group ref={cloudRefSecond} position={[-1.5, -5, 3.2]}>
+        <Cloud  opacity={8} width={80} depth={10} segments={20} seed={42}  />
+      </group>
+      
+    </>
   );
 }
-

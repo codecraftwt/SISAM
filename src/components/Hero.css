@@ -32,7 +32,7 @@
   max-width: 800px;
   padding: 3rem;
   color: white; 
-  margin-top: 120px;
+  /* margin-top: 120px; */
   margin-left: 75px;
 }
 
@@ -40,7 +40,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
 }
 
 .subtitle-text {
@@ -146,7 +146,7 @@
 .hero-illustration canvas {
   width: 100% !important;
   height: 100% !important;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   position: relative;
   top: 0;

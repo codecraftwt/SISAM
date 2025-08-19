@@ -1,10 +1,14 @@
-import React, { useEffect, useRef, Suspense, useState } from 'react';
+import React, { useEffect, useRef, Suspense, useState, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Sparkles } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import './Hero.css';
 import Earth from '../models/earth';
+import CloudModel from './Cloud';
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
   const heroRef = useRef(null);
@@ -55,7 +59,7 @@ const Hero = () => {
       .to({}, { duration: 0.4 })
       .fromTo(
         heroContentRef.current,
-        { y: 100, opacity: 0 },
+        { y: 300, opacity: 0 },
         { y: 0, opacity: 1, duration: 1, ease: 'power3.out' },
         '-=0.4'
       );
@@ -88,9 +92,24 @@ const Hero = () => {
     };
   }, []);
 
+// useLayoutEffect(() => {
+//   gsap.to(".hero-text", {
+//     y: 100,
+//     opacity: 1,
+//     // scale:3,
+//     scrollTrigger: {
+//       trigger: ".hero-text",
+//       start: "top 80%",
+//       end: "bottom 20%",
+//       scrub: 2,
+//     },
+//   });
+// }, []);
+
+
   return (
     <section className="hero" ref={heroRef}>
-      <Canvas className="hero-bg-canvas" style={{ position: 'absolute', top: 0, left: 0 }}>
+      <Canvas className="hero-bg-canvas" style={{ position: 'absolute', top: 0, left: 0, }}>
         <Sparkles
           count={500}
           scale={[30, 30, 30]}
@@ -117,6 +136,9 @@ const Hero = () => {
             <Suspense fallback={null}>
               <Earth position={earthPosition} scale={earthScale} />
             </Suspense>
+            {/* <Suspense fallback={null}>
+              <CloudModel position={[-4, -1.2, 0]} scale={5} />
+            </Suspense> */}
 
             {/* <OrbitControls
               enableZoom={false}
@@ -130,7 +152,7 @@ const Hero = () => {
         </div>
 
         <div className="hero-content" ref={heroContentRef}>
-          <div className="hero-subtitle" ref={subtitleRef}>
+          <div className="hero-subtitle" style={{paddingTop:"35px "}} ref={subtitleRef}>
             <span className="subtitle-text">INNOVATION & SPEED</span>
             <div className="subtitle-line"></div>
           </div>
@@ -145,6 +167,10 @@ const Hero = () => {
             Read More →
           </button>
         </div>
+
+        {/* <div className='hero-text' style={{fontSize:"30px" ,fontWeight:"800",color:"#212121" ,paddingLeft:"70px",paddingTop:"200px"}}> hello worldwide
+          <h2 style={{fontSize:"22px" ,fontWeight:"700",color:"#212121" }}>lorem ipsum dolor sit amet <br/> consectetur adipiscing elit sed do eiusmod tempor  <br/>incididunt ut labore et dolore magna aliqua </h2>
+        </div> */}
       </div>
     </section>
   );
