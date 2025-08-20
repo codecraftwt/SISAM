@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import "./Footer.css"
 import {
   FaFacebookF,
   FaInstagram,
@@ -318,7 +319,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="footer-section" style={{ flex: "0 0 240px" }}>
+          <div className="footer-link" style={{ flex: "0 0 240px" }}>
             <h4 style={{ marginBottom: 14 }}>QUICK LINKS</h4>
             <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
               <li><a href="#" style={{ color: "white", lineHeight: "2.3" }}>Home</a></li>
@@ -338,12 +339,12 @@ export default function Footer() {
           </div>
         </div>
 
-        <div
+        <div className="footer-copyright"
+
           style={{
             textAlign: "center",
             marginTop: 120,
             fontSize: 13,
-            opacity: 0.7,
             letterSpacing: 1,
             padding: "20px 0",
           }}

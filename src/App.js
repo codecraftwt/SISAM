@@ -2,6 +2,8 @@ import React, { Suspense, useEffect } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import Herosection from './components/Herosection';
+
 import Services from './components/Services';
 import Earth from './models/earth';
 import { Canvas } from '@react-three/fiber';
@@ -22,6 +24,7 @@ import SoundPlayer from './components/Sound';
 import soundFile from "../src/sound.mp3"
 import Background from "./components/Background";
 import ImageCarousel3D from "./components/Image";
+import Cursor from "./components/Cursor";
 import logo from "./assets/logo.png";
 import logo1 from "./assets/logo1.png";
 import logo2 from "./assets/logo2.png";
@@ -105,9 +108,10 @@ useGLTF.preload("/models/cloud/scene.gltf");
 
   return (
     <div className="App">
+      <Cursor />
 
-      {/* <Navbar />
-      <SoundPlayer src={soundFile} /> */}
+      <Navbar />
+      <SoundPlayer src={soundFile} />
 
 {/* <CloudScene/> */}
 
@@ -115,6 +119,8 @@ useGLTF.preload("/models/cloud/scene.gltf");
               <div className="innerDiv"></div>
               <div style={{ height: "100vh" }}>
                 <Hero />
+      <Herosection />
+
               </div>
             </div> */}
             {/* <div
@@ -145,10 +151,13 @@ useGLTF.preload("/models/cloud/scene.gltf");
 
       {/* <div style={{height:"100vh"}}/>
       <Cards/> */}
+      <Herosection />
 
-      {/* <OceanScene/>
+      <OceanScene/>
       <AboutUsSection />
-      <ExploreCards />  */}
+      {/* <ExploreCards />   */}
+      {/* <TravelingTruck /> */}
+
       <Form />
       <Footer />  
       {/* <Services /> */}

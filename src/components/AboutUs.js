@@ -12,41 +12,56 @@ const AboutUsSection = () => {
   const sectionRef = useRef(null)
   const [trigger3D, setTrigger3D] = React.useState(false);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo('.aboutus-heading',
-        { opacity: 0, x: -60 },
-        { opacity: 1, x: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.aboutus-heading', start: 'top 80%' } }
-      )
-      gsap.fromTo('.aboutus-paragraph',
-        { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 1, ease: 'power3.out', stagger: 0.15, scrollTrigger: { trigger: '.aboutus-paragraph', start: 'top 85%' } }
-      )
-      gsap.fromTo('.aboutus-btn',
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', scrollTrigger: { trigger: '.aboutus-btn', start: 'top 90%' } }
-      )
-      gsap.fromTo('.aboutus-video',
-        { opacity: 0, scale: 0.95, x: 60 },
-        { opacity: 1, scale: 1, x: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.aboutus-video', start: 'top 80%' } }
-      )
-      gsap.fromTo('.aboutus-badge',
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.aboutus-badge', start: 'top 85%' } }
-      )
-      ScrollTrigger.create({
-        trigger: '.aboutus-section',
-        start: '25% 10%',
-        end: 'bottom 50%',
-        onEnter: () => setTrigger3D(true),
-        onLeave: () => setTrigger3D(false),
-        onEnterBack: () => setTrigger3D(true),
-        onLeaveBack: () => setTrigger3D(false),
-        // markers: true
-      });
-    }, sectionRef)
-    return () => ctx.revert()
-  }, [])
+useEffect(() => {
+  const ctx = gsap.context(() => {
+    const tl = gsap.timeline({
+      paused: true, 
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "50% 80%",   
+        end: "bottom 50%",
+        toggleActions: "play none none reverse",
+        onEnter: () => setTrigger3D(true),     
+        onLeaveBack: () => setTrigger3D(false) ,
+        markers: true,
+      }
+    });
+
+    tl.fromTo('.aboutus-heading',
+      { opacity: 0, x: -60 },
+      { opacity: 1, x: 0, duration: 1, ease: 'power3.out' }
+    )
+    .fromTo('.aboutus-paragraph',
+      { opacity: 0, y: 40 },
+      { opacity: 1, y: 0, duration: 1, ease: 'power3.out', stagger: 0.15 },
+      "-=0.5"
+    )
+    .fromTo('.aboutus-btn',
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+      "-=0.3"
+    )
+    .fromTo('.aboutus-video',
+      { opacity: 0, scale: 0.95, x: 60 },
+      { opacity: 1, scale: 1, x: 0, duration: 1, ease: 'power3.out' },
+      "-=0.4"
+    )
+    .fromTo('.aboutus-badge',
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 1, ease: 'power3.out' },
+      "-=0.5"
+    )
+    .fromTo('.aboutus-3d',
+      { opacity: 0, scale: 0.9 },
+      { opacity: 1, scale: 1, duration: 1, ease: 'power3.out' },
+      "-=0.6"
+    );
+  }, sectionRef);
+
+  return () => ctx.revert();
+}, []);
+
+
 
   return (
     <section className="aboutus-section" ref={sectionRef}>
@@ -68,7 +83,11 @@ const AboutUsSection = () => {
           </button>
         </div>
         <div className="aboutus-right">
-            <AboutUs3D trigger={trigger3D} />
+          {trigger3D && (
+            <div className="aboutus-3d">
+              <AboutUs3D trigger={trigger3D} />
+            </div>
+          )}
           <div className="aboutus-images">
             <div className="aboutus-img-main">
                 <video

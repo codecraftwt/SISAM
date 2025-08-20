@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useLayoutEffect } from 'react';
+import React, { useRef, useEffect, useState, useLayoutEffect, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
@@ -13,7 +13,7 @@ function getSCurvePoints(viewWidth, viewHeight) {
   ];
 }
 
-function PlaneModel({ progress, curve }) {
+function PlaneModel({ progress, curve, scale: modelScale }) {
   const ref = useRef();
   const { scene } = useGLTF(require('../models/aeroplane.glb'));
   const propeller = scene.getObjectByName('propeller') || scene.getObjectByName('Propeller');
@@ -67,7 +67,7 @@ function PlaneModel({ progress, curve }) {
     }
   });
 
-  return <primitive ref={ref} object={scene} scale={0.028} rotation={FIXED_ROTATION} />;
+  return <primitive ref={ref} object={scene} scale={modelScale} rotation={FIXED_ROTATION} />;
 }
 
 function PathLine({ curve }) {
@@ -114,6 +114,13 @@ export default function AboutUs3D({ trigger }) {
     }
   }, [dimensions]);
 
+  const planeScale = useMemo(() => {
+    if (!dimensions.width) return 0.028;
+    if (dimensions.width <= 476) return 0.012;
+    if (dimensions.width <= 770) return 0.022;
+    return 0.028;
+  }, [dimensions.width]);
+
   useEffect(() => {
     if (trigger) {
       gsapObj.current.value = 0;
@@ -121,6 +128,9 @@ export default function AboutUs3D({ trigger }) {
         value: 1,
         duration: 20,
         ease: 'power2.inOut',
+        // markers:true,
+        start:" 10% 20%",
+        end: "15% 40%",
         onUpdate: () => {
           progress.current = gsapObj.current.value;
         },
@@ -146,10 +156,10 @@ export default function AboutUs3D({ trigger }) {
     }}>
       {curve && trigger && (
         <Canvas camera={{ position: [0, 0, 7], fov: 50 }} style={{ width: '100vw', height: '100vh' }}>
-          <ambientLight intensity={0.7} />
+          <ambientLight intensity={2} />
           <directionalLight position={[5, 5, 5]} intensity={1} />
           {/* <PathLine curve={curve} /> */}
-          <PlaneModel progress={progress} curve={curve} />
+          <PlaneModel progress={progress} curve={curve} scale={planeScale} />
         </Canvas>
       )}
     </div>

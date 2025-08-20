@@ -99,7 +99,7 @@ function Ship() {
 
 export default function OceanScene() {
   return (
-    <div id="scroll-wrapper" style={{ height: "200vh",position:"sticky" }}>
+    <div id="scroll-wrapper" style={{ height: "100vh",position:"sticky" }}>
       <div style={{ position: "sticky", top: 0, height: "100vh" }}>
         <Canvas camera={{ position: [0, 40, 160], fov: 55 }}>
           <hemisphereLight args={["#ffffff", "#9a9898ff", 0.3]} />

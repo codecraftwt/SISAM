@@ -1,7 +1,7 @@
 .aboutus-section {
   width: 100%;
   background: transparent;
-  padding: 5vw 0 5vw 0;
+  padding: 5vw 10px 5vw 10px;
   display: flex;
   justify-content: center;
 }
@@ -26,6 +26,9 @@
   justify-content: center;
   margin-top: 2vw;
   background: transparent;
+  padding-left: 20px;
+  padding-right: 20px;
+
 }
 
 .aboutus-heading {
@@ -189,11 +192,28 @@
   opacity: 0.85;
 }
 
-@media (max-width: 1100px) {
+@media (min-width: 700px) and (max-width: 1023px) {
+  .aboutus-container {
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    /* gap: 2vw; */
+    border: 1px solid red;
+  }
+
+  .aboutus-left,
+  .aboutus-right {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 1000px) {
   .aboutus-container {
     flex-direction: column;
     align-items: center;
-    gap: 3vw;
+    /* gap: 3vw; */
   }
   .aboutus-left, .aboutus-right {
     max-width: 100%;
@@ -205,13 +225,13 @@
     align-items: center;
     margin-top: 2.5rem;
   }
-  .aboutus-images {
+  /* .aboutus-images {
     width: 500px;
     height: 270px;
     background: transparent;
   }
   .aboutus-img-main {
-    width: 220px;
+    width: 320px;
     height: 150px;
   }
   .aboutus-img-secondary {
@@ -229,40 +249,52 @@
   }
   .aboutus-badge-label {
     font-size: 0.9rem;
-  }
+  } */
 }
 
-@media (max-width: 600px) {
-  .aboutus-section {
-    padding: 2.5rem 0 2.5rem 0;
-  }
+
+
+
+@media (max-width: 476px) {
   .aboutus-container {
-    padding: 0 0.5rem;
+    padding: 0;
+    overflow: hidden;
+
   }
-  .aboutus-heading, .aboutus-highlight {
-    font-size: 1.5rem;
+  .aboutus-section{
+    margin-top: 80px;
   }
-  .aboutus-underline {
-    width: 50px;
-    height: 4px;
+  .aboutus-right {
+    justify-content: center;
+    align-items: center;
   }
   .aboutus-images {
-    width: 98vw;
+    width: 95vw;
     min-width: 0;
-    height: 160px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
   }
-  .aboutus-img-main {
-    width: 120px;
-    height: 80px;
-  }
+  .aboutus-img-main,
   .aboutus-img-secondary {
-    width: 70px;
-    height: 40px;
+    position: static;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 5;
+    box-shadow: none;
   }
   .aboutus-badge {
-    right: 0;
-    bottom: 0;
-    padding: 0.5rem 0.7rem 0.5rem 0.7rem;
-    min-width: 70px;
+    position: static;
+    margin-top: 8px;
+  }
+  .aboutus-video {
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 0 !important;
+    object-fit: cover;
   }
 }

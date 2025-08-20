@@ -19,6 +19,8 @@ const Navbar = ({ onLinkClick }) => {
   const [showWhiteBg, setShowWhiteBg] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
   const itemRefs = useRef([]);
   const underlineRef = useRef(null);
   const navbarRef = useRef(null);
@@ -27,12 +29,17 @@ const Navbar = ({ onLinkClick }) => {
   const scrollTimeout = useRef(null);
   const menuTimeout = useRef(null);
 
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const idx = hoverIdx !== null ? hoverIdx : activeIdx;
     const elem = itemRefs.current[idx];
     const underline = underlineRef.current;
-    if (elem && underline) {
+    if (elem && underline && !isMobile) {
       const { offsetLeft, offsetWidth } = elem;
       gsap.to(underline, {
         left: offsetLeft,
@@ -42,7 +49,7 @@ const Navbar = ({ onLinkClick }) => {
         ease: 'expo.out',
       });
     }
-  }, [activeIdx, hoverIdx]);
+  }, [activeIdx, hoverIdx, isMobile]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -140,7 +147,7 @@ const Navbar = ({ onLinkClick }) => {
 
   return (
     <nav
-      className="navbar"
+      className={`navbar${showWhiteBg ? ' white-bg' : ''}`}
       ref={navbarRef}
       onMouseEnter={handleNavbarMouseEnter}
       onMouseLeave={handleNavbarMouseLeave}
@@ -156,70 +163,107 @@ const Navbar = ({ onLinkClick }) => {
           </div>
         </div>
 
-        <ul className="navbar-main" style={{ position: 'relative' }}>
-          {NAV_ITEMS.map((item, idx) => (
-            <li
-              key={item.label}
-              ref={elem => (itemRefs.current[idx] = elem)}
-              className={
-                idx === activeIdx
-                  ? 'active'
-                  : ''
-              }
-              onMouseEnter={() => setHoverIdx(idx)}
-              onMouseLeave={() => setHoverIdx(null)}
-              onClick={() => {
-                console.log('Navbar item clicked:', { label: item.label, idx, to: item.to });
-                setActiveIdx(idx);
-                if (onLinkClick) onLinkClick(item.label, idx, item.to); 
-              }}
-              style={{ position: 'relative', cursor: 'pointer' }}
-            >
-              <span className={idx === activeIdx ? 'active-link' : ''}>
-                {item.label}
-              </span>
-            </li>
-          ))}
-          <div
-            ref={underlineRef}
-            className="navbar-underline"
-          />
-        </ul>
+        {/* Desktop Nav */}
+        {!isMobile && (
+          <ul className="navbar-main" style={{ position: 'relative' }}>
+            {NAV_ITEMS.map((item, idx) => (
+              <li
+                key={item.label}
+                ref={elem => (itemRefs.current[idx] = elem)}
+                className={idx === activeIdx ? 'active' : ''}
+                onMouseEnter={() => setHoverIdx(idx)}
+                onMouseLeave={() => setHoverIdx(null)}
+                onClick={() => {
+                  setActiveIdx(idx);
+                  if (onLinkClick) onLinkClick(item.label, idx, item.to); 
+                }}
+                style={{ position: 'relative', cursor: 'pointer' }}
+              >
+                <span className={idx === activeIdx ? 'active-link' : ''}>
+                  {item.label}
+                </span>
+              </li>
+            ))}
+            <div
+              ref={underlineRef}
+              className="navbar-underline"
+            />
+          </ul>
+        )}
 
-        <div 
-          className="menu-container"
-          onMouseEnter={handleMenuMouseEnter}
-          onMouseLeave={handleMenuMouseLeave}
-        >
-          <div className="menu-icon" onClick={handleMenuClick}>
-            <div className="dots-grid">
-              <span className="dot"></span>
-              <span className="dot"></span>
-              <span className="dot"></span>
-              <span className="dot"></span>
-            </div>
+        {/* Mobile Nav */}
+        {isMobile && (
+          <div className="mobile-menu">
+            <button className="hamburger" onClick={handleMenuClick} aria-label="Open menu">
+              <span className="bar"></span>
+              <span className="bar"></span>
+              <span className="bar"></span>
+            </button>
+            {showMenu && (
+              <div className="mobile-dropdown">
+                {NAV_ITEMS.map((item, idx) => (
+                  <button
+                    key={item.label}
+                    className={`mobile-nav-item${idx === activeIdx ? ' active' : ''}`}
+                    onClick={() => {
+                      setActiveIdx(idx);
+                      setShowMenu(false);
+                      if (onLinkClick) onLinkClick(item.label, idx, item.to);
+                    }}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+                <div className="menu-divider"></div>
+                <button className="menu-item" onClick={() => console.log('Track Your Order clicked')}>
+                  Track Your Order
+                </button>
+                <button className="menu-item" onClick={() => console.log('Free Returns clicked')}>
+                  Free Returns
+                </button>
+                <button className="menu-item" onClick={() => console.log('Customer Service clicked')}>
+                  Customer Service
+                </button>
+              </div>
+            )}
           </div>
-          
-          {showMenu && (
-            <div className="menu-dropdown" ref={menuRef}>
-              <button className="menu-item" onClick={() => console.log('Track Your Order clicked')}>
-                <span>Track Your Order</span>
-              </button>
-              <div className="menu-divider"></div>
-              <button className="menu-item" onClick={() => console.log('Free Returns clicked')}>
-                <span>Free Returns</span>
-              </button>
-              <div className="menu-divider"></div>
-              <button className="menu-item" onClick={() => console.log('Customer Service clicked')}>
-                <span>Customer Service</span>
-              </button>
+        )}
+
+        {/* Desktop menu (dots) */}
+        {!isMobile && (
+          <div 
+            className="menu-container"
+            onMouseEnter={handleMenuMouseEnter}
+            onMouseLeave={handleMenuMouseLeave}
+          >
+            <div className="menu-icon" onClick={handleMenuClick}>
+              <div className="dots-grid">
+                <span className="dot"></span>
+                <span className="dot"></span>
+                <span className="dot"></span>
+                <span className="dot"></span>
+              </div>
             </div>
-          )}
-        </div>
+            {showMenu && (
+              <div className="menu-dropdown" ref={menuRef}>
+                <button className="menu-item" onClick={() => console.log('Track Your Order clicked')}>
+                  <span>Track Your Order</span>
+                </button>
+                <div className="menu-divider"></div>
+                <button className="menu-item" onClick={() => console.log('Free Returns clicked')}>
+                  <span>Free Returns</span>
+                </button>
+                <div className="menu-divider"></div>
+                <button className="menu-item" onClick={() => console.log('Customer Service clicked')}>
+                  <span>Customer Service</span>
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </nav>
   );
 };
 
 export default Navbar;
-
