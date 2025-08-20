@@ -149,9 +149,8 @@ useGLTF.preload("/models/cloud/scene.gltf");
       {/* <OceanScene/>
       <AboutUsSection />
       <ExploreCards />  */}
-
-<Form/>
-      {/* <Footer />   */}
+      {/* <Form /> */}
+      <Footer />  
       {/* <Services /> */}
 
       
