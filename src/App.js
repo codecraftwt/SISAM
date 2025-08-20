@@ -42,6 +42,7 @@ import OceanScene from './components/Ocean';
 import Cards from './components/Cards';
 import ShipSectipn from './components/ShipSection';
 import CloudScene from './components/Cloud';
+import TravelingTruck from './components/OurSolutions';
 
 function App() {
   const sampleTestimonial = "From the very first call, I knew we were in the right hands. [Your Company Name] didn't just deliver a service — they brought our vision to life. We approached them with a vague idea of what we wanted, and they transformed it into something far better than we imagined. The attention to detail, clear communication, and commitment to deadlines were outstanding.";
@@ -110,12 +111,12 @@ useGLTF.preload("/models/cloud/scene.gltf");
 
 {/* <CloudScene/> */}
 
-              <div className="section2 w-[100vw] h-[1vh] bg-white relative">
+              {/* <div className="section2 w-[100vw] h-[1vh] bg-white relative">
               <div className="innerDiv"></div>
               <div style={{ height: "100vh" }}>
                 <Hero />
               </div>
-            </div>
+            </div> */}
             {/* <div
               className="middle-section w-[100vw] h-[100vh] bg-gradient-to-b from-white via-gray-100 to-white relative z-10 -mt-[25vh]"
               style={{background: "linear-gradient(to bottom, #000814, #c3a264)",height:"50vh"}}
@@ -135,20 +136,23 @@ useGLTF.preload("/models/cloud/scene.gltf");
 
       {/* <div style={{height:"100vh"}}/> */}
 
-            <div className="section3 w-[100vw] h-[1vh] bg-white relative">
+            {/* <div className="section3 w-[100vw] h-[1vh] bg-white relative">
               <div className="innerDiv"></div>
               <div style={{ height: "100vh" }}>
                 <ShipSectipn />
               </div>
-            </div>
+            </div> */}
 
       {/* <div style={{height:"100vh"}}/>
       <Cards/> */}
 
-      <Services />
-      {/* <AboutUsSection />
-      <Explore />  */}
+      {/* <OceanScene/>
+      <AboutUsSection />
+      <ExploreCards />  */}
+
+<Form/>
       {/* <Footer />   */}
+      {/* <Services /> */}
 
       
 
