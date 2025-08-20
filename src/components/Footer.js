@@ -1,19 +1,54 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, useEffect } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { FaFacebookF, FaInstagram, FaTelegramPlane, FaYoutube } from "react-icons/fa";
-import logo from "../assets/logo.png"; // Use your real logo path
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaTelegramPlane,
+  FaLinkedin,
+} from "react-icons/fa";
+import logo from "../assets/logo.png";
+
+function createCircleTexture() {
+  const size = 128;
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+
+  const ctx = canvas.getContext("2d");
+  const gradient = ctx.createRadialGradient(
+    size / 2,
+    size / 2,
+    0,
+    size / 2,
+    size / 2,
+    size / 2
+  );
+  gradient.addColorStop(0, "white");
+  gradient.addColorStop(1, "transparent");
+
+  ctx.fillStyle = gradient;
+  ctx.beginPath();
+  ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+  ctx.fill();
+
+  return new THREE.CanvasTexture(canvas);
+}
 
 function ParticlesBackground({ count = 1200 }) {
   const mesh = useRef();
+  const circleTexture = useMemo(() => createCircleTexture(), []);
+  const mouse = useRef({ x: 0, y: 0 });
+  const gyro = useRef({ x: 0, y: 0 });
+
   const particlesData = useMemo(() => {
     const positions = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
       const theta = Math.random() * 2 * Math.PI;
       const phi = Math.acos(2 * Math.random() - 1);
-      const r = 5 + Math.random() * 6; 
+      const r = 5 + Math.random() * 6;
       positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
       positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
       positions[i * 3 + 2] = r * Math.cos(phi);
@@ -21,10 +56,35 @@ function ParticlesBackground({ count = 1200 }) {
     return { positions };
   }, [count]);
 
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  useEffect(() => {
+    const handleOrientation = (e) => {
+      gyro.current.x = e.gamma / 45;
+      gyro.current.y = e.beta / 45;
+    };
+    window.addEventListener("deviceorientation", handleOrientation, true);
+    return () =>
+      window.removeEventListener("deviceorientation", handleOrientation);
+  }, []);
+
   useFrame(() => {
     if (mesh.current) {
-      mesh.current.rotation.y += 0.001;
-      mesh.current.rotation.x += 0.0005;
+      mesh.current.rotation.y += 0.0005;
+      mesh.current.rotation.x += 0.0002;
+
+      const mixX = mouse.current.x * 0.002 + gyro.current.x * 0.01;
+      const mixY = mouse.current.y * 0.002 + gyro.current.y * 0.01;
+
+      mesh.current.rotation.y += mixX;
+      mesh.current.rotation.x += mixY;
     }
   });
 
@@ -40,29 +100,15 @@ function ParticlesBackground({ count = 1200 }) {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.055}
-          color="#fff"
-          opacity={0.17}
+          size={0.07}
+          map={circleTexture}
           transparent
+          opacity={0.65}
           depthWrite={false}
+          blending={THREE.AdditiveBlending}
         />
       </points>
     </group>
-  );
-}
-
-function PlayRotatingIcon() {
-  const meshRef = useRef();
-  useFrame(({ clock }) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.z = clock.getElapsedTime();
-    }
-  });
-  return (
-    <mesh ref={meshRef}>
-      <coneGeometry args={[0.35, 0.15, 3]} />
-      <meshBasicMaterial color="#FFBC00" />
-    </mesh>
   );
 }
 
@@ -70,33 +116,43 @@ export default function Footer() {
   const container = useRef();
   gsap.registerPlugin(useGSAP);
 
-  useGSAP(() => {
-    gsap.fromTo(
-      [
-        ".contact-help",
-        ".footer-logo-section",
-        ".rotating-play",
-        ".footer-section"
-      ],
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, ease: "power3.out", stagger: 0.20 }
-    );
-  }, { scope: container });
+  useGSAP(
+    () => {
+      gsap.fromTo(
+        [
+          ".contact-help",
+          ".footer-logo-section",
+          ".footer-section",
+        ],
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          stagger: 0.2,
+        }
+      );
+    },
+    { scope: container }
+  );
 
   return (
     <div
       ref={container}
       style={{
         width: "100vw",
-        height: "100vh",
-        // background: "#0a3a75",
-        background: '#000000',
+        minHeight: "100vh",
+        background: "#000",
         position: "relative",
-        overflow: "hidden",
+        overflowX: "hidden",
+        overflowY: "auto",
         fontFamily: "Arial, sans-serif",
-        color: "#fff", // All text is white
+        color: "#fff",
       }}
     >
+     
+
       <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
         <Canvas camera={{ position: [0, 0, 9] }}>
           <ambientLight intensity={0.6} />
@@ -104,164 +160,195 @@ export default function Footer() {
         </Canvas>
       </div>
 
-      <div
-        className="contact-help"
-        style={{
-          position: "absolute",
-          left: "50%",
-          top: 60,
-          transform: "translateX(-50%)",
-          zIndex: 2,
-          backgroundColor: "#FFBC00",
-          borderRadius: 14,
-          padding: "26px 36px",
-          minWidth: 1000,
-          maxWidth: 550,
-          width: "72vw",
-          boxShadow: "0 7px 24px rgba(0,0,0,0.14)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "24px",
-          color: "#fff", // text white
-          fontWeight: "bold"
-        }}
-      >
-        <div>
-          <h3 style={{ margin: 0, fontWeight: "bold", fontSize: "24px", letterSpacing: 0.4, color: "#fff" }}>Need Any Help?</h3>
-          <h3 style={{ margin: 0, fontWeight: "bold", fontSize: "20px", color: "#fff" }}>Contact Us!</h3>
-          <p style={{ margin: 0, fontWeight: 600, fontSize: "20px", color: "#fff" }}>
-            <span role="img" aria-label="phone">📞</span> +95 527 550 5204
-          </p>
-        </div>
-        <form onSubmit={e => e.preventDefault()} style={{ display: "flex", alignItems: "center" }}>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            style={{
-              padding: "12px 16px",
-              borderRadius: 5,
-              border: "none",
-              width: 220,
-              marginRight: 12,
-              fontSize: 15
-            }}
-          />
-          <button
-            type="submit"
-            style={{
-              backgroundColor: "#0a3a75",
-              color: "white",
-              border: "none",
-              borderRadius: 5,
-              padding: "12px 26px",
-              cursor: "pointer",
-              fontWeight: 600,
-              fontSize: 15
-            }}
-          >
-            Subscribe Now →
-          </button>
-        </form>
-      </div>
+   <div
+  className="contact-help"
+  style={{
+    position: "relative",
+    margin: "40px auto",
+    zIndex: 2,
+    backgroundColor: "#FFBC00",
+    borderRadius: 14,
+    padding: "26px 36px",
+    width: "90%",
+    maxWidth: 1100,
+    boxShadow: "0 7px 24px rgba(0,0,0,0.14)",
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: "20px",
+  }}
+>
+  {/* Left content */}
+  <div
+    style={{
+      flex: "1 1 300px",
+      textAlign: "left",
+    }}
+  >
+    <h3 style={{ margin: 0, fontWeight: "bold", fontSize: "24px", color: "#fff" }}>
+      Need Any Help?
+    </h3>
+    <h3 style={{ margin: 0, fontWeight: "bold", fontSize: "20px", color: "#fff" }}>
+      Contact Us!
+    </h3>
+    <p style={{ margin: 0, fontWeight: 600, fontSize: "18px", color: "#fff" }}>
+      📞 +390586243814
+    </p>
+  </div>
 
-      {/* Footer Main Content */}
+  <form
+    onSubmit={(e) => e.preventDefault()}
+    style={{
+      flex: "1 1 300px",
+      display: "flex",
+      justifyContent: "flex-end",
+      flexWrap: "wrap",
+      gap: "12px",
+      maxWidth: "400px", 
+    }}
+  >
+    <input
+      type="email"
+      placeholder="Enter your email"
+      style={{
+        flex: "1 1 200px",
+        padding: "12px 16px",
+        borderRadius: 5,
+        border: "none",
+        fontSize: 15,
+        minWidth: "180px",
+      }}
+    />
+    <button
+      type="submit"
+      style={{
+        backgroundColor: "#0a3a75",
+        color: "white",
+        border: "none",
+        borderRadius: 5,
+        padding: "12px 26px",
+        cursor: "pointer",
+        fontWeight: 600,
+        fontSize: 15,
+        whiteSpace: "nowrap",
+      }}
+    >
+      Subscribe Now →
+    </button>
+  </form>
+
+ <style>
+  {`
+    @media (max-width: 768px) {
+
+      .contact-help {
+        display: none !important; 
+  }
+      .footer-container {
+        height: auto !important;
+        min-height: 100% !important;
+      }
+      .footer-sections {
+        flex-direction: column !important;
+        align-items: center !important;
+        padding: 20px ;
+       
+
+      }
+    }
+  `}
+</style>
+
+</div>
+
+
+
+      {/* Footer Sections */}
       <div
         style={{
-          position: "absolute",
-          left: 0, right: 0, bottom: 0,
+          position: "relative",
           zIndex: 2,
           width: "100%",
-          paddingBottom: 27,
+            flex: 1,           
+        flexDirection: "column",
         }}
       >
         <div
+          className="footer-sections"
           style={{
             display: "flex",
             justifyContent: "space-around",
             flexWrap: "wrap",
             gap: 36,
-            marginTop: 180,
+            // marginTop: 120,
             alignItems: "flex-start",
-            color: "#fff"
           }}
         >
-          {/* Logo and socials */}
-          <div className="footer-logo-section" style={{ flex: "0 0 260px", minWidth: 200 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 15, marginBottom: 14 }}>
+          <div className="footer-logo-section" style={{ flex: "0 0 260px" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 15,
+                marginBottom: 14,
+              }}
+            >
               <img
                 src={logo}
                 alt="Logo"
                 style={{
-                  width: 75, height: 75,
+                  width: 75,
+                  height: 75,
                   objectFit: "contain",
                   borderRadius: 7,
-                  boxShadow: "0 3px 7px rgba(0,0,0,0.10)"
+                  boxShadow: "0 3px 7px rgba(0,0,0,0.10)",
                 }}
-                className="animated-logo"
               />
             </div>
-            <p style={{ fontSize: 17, maxWidth: 320, opacity: 0.8, color: "#fff" }}>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard.
+            <p style={{ fontSize: 17, maxWidth: 320, opacity: 0.8 }}>
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry.
             </p>
             <div style={{ marginTop: 20, display: "flex", gap: 23, fontSize: 26 }}>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={{ color: "white" }} aria-label="Facebook"><FaFacebookF /></a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{ color: "white" }} aria-label="Instagram"><FaInstagram /></a>
-              <a href="https://telegram.org" target="_blank" rel="noopener noreferrer" style={{ color: "white" }} aria-label="Telegram"><FaTelegramPlane /></a>
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" style={{ color: "white" }} aria-label="YouTube"><FaYoutube /></a>
+              <a href="#" style={{ color: "white" }}><FaFacebookF /></a>
+              <a href="#" style={{ color: "white" }}><FaInstagram /></a>
+              <a href="#" style={{ color: "white" }}><FaTelegramPlane /></a>
+              <a href="#" style={{ color: "white" }}><FaLinkedin /></a>
             </div>
           </div>
 
-          {/* 3D Play Icon */}
-          <div
-            className="rotating-play"
-            style={{
-              minWidth: 65,
-              display: "flex",
-              alignItems: "flex-start",
-              justifyContent: "center",
-              marginTop: 38
-            }}
-          >
-            <Canvas style={{ width: 44, height: 44 }} camera={{ position: [0, 0, 2.3] }}>
-              <ambientLight intensity={0.7} />
-              <PlayRotatingIcon />
-            </Canvas>
-          </div>
-
-          {/* Quick Links */}
-          <div className="footer-section" style={{ flex: "0 0 240px", minWidth: 180 }}>
-            <h4 style={{ letterSpacing: 1, marginBottom: 14, color: "#fff" }}>QUICK LINKS</h4>
-            <ul style={{ listStyle: "none", padding: 0, marginTop: 10, fontSize: 16, color: "#fff" }}>
-              <li><a href="#" style={{ color: "white", textDecoration: "none", lineHeight: "2.3" }}>Home</a></li>
-              <li><a href="#" style={{ color: "white", textDecoration: "none", lineHeight: "2.3" }}>ABOUT US</a></li>
-              <li><a href="#" style={{ color: "white", textDecoration: "none", lineHeight: "2.3" }}>SERVICE</a></li>
-              <li><a href="#" style={{ color: "white", textDecoration: "none", lineHeight: "2.3" }}>BLOG</a></li>
-              <li><a href="#" style={{ color: "white", textDecoration: "none", lineHeight: "2.3" }}>CONTACT US</a></li>
+          <div className="footer-section" style={{ flex: "0 0 240px" }}>
+            <h4 style={{ marginBottom: 14 }}>QUICK LINKS</h4>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              <li><a href="#" style={{ color: "white", lineHeight: "2.3" }}>Home</a></li>
+              <li><a href="#" style={{ color: "white", lineHeight: "2.3" }}>About Us</a></li>
+              <li><a href="#" style={{ color: "white", lineHeight: "2.3" }}>Service</a></li>
+              <li><a href="#" style={{ color: "white", lineHeight: "2.3" }}>Blog</a></li>
+              <li><a href="#" style={{ color: "white", lineHeight: "2.3" }}>Contact Us</a></li>
             </ul>
           </div>
 
-          {/* Address Block */}
-          <div className="footer-section" style={{ flex: "0 0 260px", minWidth: 180 }}>
-            <h4 style={{ letterSpacing: 1, marginBottom: 14, color: "#fff" }}>ADDRESS</h4>
-            <p style={{ fontSize: 15, maxWidth: 325, opacity: 0.8, color: "#fff" }}>
-              Lorem Ipsum is simply dummy text <br />of the printing and typesetting
+          <div className="footer-section" style={{ flex: "0 0 260px" }}>
+            <h4 style={{ marginBottom: 14 }}>ADDRESS</h4>
+            <p style={{ fontSize: 15, maxWidth: 325, opacity: 0.8 }}>
+              Scali Cerere 15, Livorno, Italy 57122
             </p>
-            <p style={{ margin: "12px 0 7px" }}>
-              <a href="mailto:example@companyshopify.com" style={{ color: "white", textDecoration: "none" }}>examplecompanyshopify.com</a>
-            </p>
-            <p style={{ margin: 0, color: "#fff" }}>Phone: +95 527 550 5204</p>
+            <p style={{ margin: 0 }}>Phone: +390586243814</p>
           </div>
         </div>
-        <div style={{
-          textAlign: "center",
-          marginTop: 38,
-          fontSize: 13,
-          opacity: 0.7,
-          letterSpacing: 1,
-          color: "white"
-        }}>
-          &copy; Sisam 2025 All Rights Reserved
+
+        <div
+          style={{
+            textAlign: "center",
+            marginTop: 120,
+            fontSize: 13,
+            opacity: 0.7,
+            letterSpacing: 1,
+            padding: "20px 0",
+          }}
+        >
+          © Sisam 2025 All Rights Reserved
         </div>
       </div>
     </div>
