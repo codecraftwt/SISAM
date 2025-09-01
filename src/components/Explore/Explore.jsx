@@ -273,7 +273,7 @@ export default function ServiceCardsWithHeader() {
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "center",
-                      color: "#fff",
+                      color: "#ffffff",
                     }}
                   >
                     <div style={{ fontSize: 14.5, marginBottom: 12 }}>
