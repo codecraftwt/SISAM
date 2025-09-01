@@ -42,7 +42,7 @@ const cards = [
 
 export default function ServiceCardsWithHeader() {
   const cardRefs = useRef([]);
-  const timers = useRef({}); // store timers per card
+  const timers = useRef({}); 
 
   const flipCard = (idx, toBack) => {
     const card = cardRefs.current[idx];
@@ -55,12 +55,11 @@ export default function ServiceCardsWithHeader() {
   };
 
   const handleMouseEnter = (idx) => {
-    clearTimeout(timers.current[idx]); // clear any pending timer
-    flipCard(idx, true); // flip to back immediately
+    clearTimeout(timers.current[idx]); 
+    flipCard(idx, true); 
   };
 
   const handleMouseLeave = (idx) => {
-    // wait 2.5s before flipping back
     timers.current[idx] = setTimeout(() => {
       flipCard(idx, false);
     }, 500);
@@ -76,7 +75,7 @@ export default function ServiceCardsWithHeader() {
           backgroundImage: `url(${ExploreBg})`,
           backgroundPosition: "center",
           backgroundSize: "cover",
-          filter: "blur(8px) brightness(1.4)",
+          filter: "blur(8px) brightness(0.8)",
           zIndex: -2,
         }}
       />
@@ -84,7 +83,7 @@ export default function ServiceCardsWithHeader() {
         style={{
           position: "absolute",
           inset: 0,
-          backgroundColor: "rgba(0,0,0,0.3)",
+          // backgroundColor: "rgba(0,0,0,0.3)",
           zIndex: -1,
         }}
       />
@@ -114,6 +113,7 @@ export default function ServiceCardsWithHeader() {
                 style={{
                   fontWeight: 600,
                   fontSize: 48,
+                  color:"#1E3A8A",
                   marginBottom: 8,
                   letterSpacing: "-0.02em",
                 }}
@@ -126,6 +126,7 @@ export default function ServiceCardsWithHeader() {
                   fontSize: 16,
                   lineHeight: 1.7,
                   opacity: 0.9,
+                  color:"#1E3A8A"
                 }}
               >
                 Transmax is the world’s driving worldwide coordinations supplier —

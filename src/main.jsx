@@ -9,9 +9,10 @@ import Hero from "./components/Hero/Hero.jsx";
 import OurSolutions from "./components/OurSolutions/OurSolutions.jsx";
 import GridBackground from "./components/Testimonials/Grids.jsx";
 
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter>  
       <Routes>
         {/* Default route */}
         <Route path="/" element={<App />} />
@@ -24,8 +25,9 @@ createRoot(document.getElementById("root")).render(
         {/* <Hero />
 
         <OceanScene /> */}
-{/* <GridBackground/> */}
-<OurSolutions/>
+
+{/* <OurSolutions/> */}
+<GridBackground/>
 
         </>} />
 

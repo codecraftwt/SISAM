@@ -13,6 +13,8 @@ import Testimonials from './components/Testimonials/Testimonials'
 import OurSolutions from './components/OurSolutions/OurSolutions'
 import OceanScene from './components/Ocean/Ocean'
 import Explore from './components/Explore/Explore'
+import ScrollableContent from "./components/Testimonials/Grids.jsx";
+import GridBackground from './components/Testimonials/Grids.jsx'
 
 
 function App() {
@@ -37,20 +39,18 @@ function App() {
        {/* <ExploreCardsSection /> */}
        <Explore />
     </section>
+     <section className=''>
+      <GridBackground/>
+    </section>
     <section className=''>
       <Form />
     </section>
     <section className=''>
       <Footer />
     </section>
-    <section className=''>
+    {/* <section className=''>
       <Testimonials/>
-    </section>
-    <section className=''>
-      <OurSolutions/>
-      
-    </section>
-
+    </section> */}
     </>
   )
 }
