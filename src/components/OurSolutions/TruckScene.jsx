@@ -11,6 +11,7 @@ function TruckModel(props) {
   // हलकासा animation (slow rotation / movement)
   useFrame((state) => {
     if (ref.current) {
+      
       ref.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.2) * 0.2;
       ref.current.position.y = Math.sin(state.clock.elapsedTime) * 0.05;
     }
