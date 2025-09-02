@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import './Navbar.css';
-import logoImage from '../../assets/SisamLogo.png';
+import logoImage from '../../assets/Sisamlogo.png';
 
 const NAV_ITEMS = [
   { label: 'HOME', to: '/home' },
