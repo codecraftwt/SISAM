@@ -4,7 +4,6 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, useGLTF, Environment } from "@react-three/drei";
 import * as THREE from "three";
 
-// 👉 Truck model component
 function TruckModel(props) {
   const { scene } = useGLTF("/models/cargotruck.glb"); // model path
   const ref = useRef();

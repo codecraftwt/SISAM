@@ -6,8 +6,7 @@ import Service from "../../assets/service.mp4"
 import Warehouse from "../../assets/warehouse.mp4"
 import Industry from "../../assets/industry.mp4"
 
-
-
+  
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Scroll3DSection() {
