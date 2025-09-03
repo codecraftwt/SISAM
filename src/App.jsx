@@ -38,9 +38,9 @@ function App() {
     <section className=''>
        <Explore />
     </section>
-     {/* <section className=''>
+     <section className=''>
       <GridBackground/>
-    </section> */}
+    </section>
     <section className=''>
       <Form />
     </section>

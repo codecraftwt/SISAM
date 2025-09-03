@@ -1,17 +1,16 @@
 import React, { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Ecommerce from "../../assets/ecommerce.mp4"
-import Service from "../../assets/service.mp4"
-import Warehouse from "../../assets/warehouse.mp4"
-import Industry from "../../assets/industry.mp4"
+import Ecommerce from "../../assets/ecommerce.mp4";
+import Service from "../../assets/service.mp4";
+import Warehouse from "../../assets/warehouse.mp4";
+import Industry from "../../assets/industry.mp4";
 
-  
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Scroll3DSection() {
   const [sectionIndex, setSectionIndex] = useState(0);
-  
+
   const containerRef = useRef(null);
   const textsRef = useRef([]);
   const shimmerRef = useRef(null);
@@ -23,13 +22,7 @@ export default function Scroll3DSection() {
   const activeIsARef = useRef(true);
   const vignetteRef = useRef(null);
 
-  const videoSources = [
-  Warehouse,
-  Ecommerce,
-  Service,
-  Industry
-
-  ];
+  const videoSources = [Warehouse, Ecommerce, Service, Industry];
 
   useEffect(() => {
     let ctx;
@@ -49,7 +42,7 @@ export default function Scroll3DSection() {
               });
             }
 
-            const totalSections = 4; 
+            const totalSections = 4;
             const idx = Math.min(
               totalSections - 1,
               Math.floor(self.progress * totalSections)
@@ -67,7 +60,7 @@ export default function Scroll3DSection() {
               y: 0,
               scrollTrigger: {
                 trigger: containerRef.current,
-                start: `${i * 25}% center`, 
+                start: `${i * 25}% center`,
                 end: `${(i + 1) * 25}% center`,
                 scrub: true,
               },
@@ -243,7 +236,7 @@ export default function Scroll3DSection() {
       style={{
         height: "400vh",
         background: "#ffffff",
-        width: "100vh",
+        width: "100%",
       }}
     >
       <div
@@ -253,7 +246,7 @@ export default function Scroll3DSection() {
           height: "100vh",
           width: "100vw",
           display: "flex",
-          flexDirection: "row",
+          flexDirection: "column", // Default to column for mobile & tablet
         }}
       >
         <div
@@ -271,114 +264,87 @@ export default function Scroll3DSection() {
               textAlign: "center",
               position: "relative",
               maxWidth: "80%",
-              fontSize: "clamp(1.8rem, 3vw, 3rem)",
+              fontSize: "clamp(1.8rem, 3vw, 3rem)", // Responsive font size
               fontWeight: 700,
               lineHeight: 1.3,
               color: "#000000",
             }}
           >
-            {[
-              {
-                title: "Quality Management System",
-                text:
-                  "With our worldwide inclusion, strong transportation organization and industry driving coordinations experience, our Service and Aftermarket Sisam arrangements.",
-              },
-              {
-                title: "E-commerce Sisam Solutions",
-                text:
-                  "With our worldwide inclusion, strong transportation organization and industry driving coordinations experience, our Service and Aftermarket Sisam arrangements.",
-              },
-              {
-                title: "Service & Aftermarket Sisam",
-                text:
-                  "With our worldwide inclusion, strong transportation organization and industry driving coordinations experience, our Service and Aftermarket Sisam arrangements.",
-              },
-              {
-                title: "Industry-Specific Competence",
-                text:
-                  "With our worldwide inclusion, strong transportation organization and industry driving coordinations experience, our Service and Aftermarket Sisam arrangements.",
-              },
-            ].map((item, i) => (
-              <div
-                key={i}
-                ref={(el) => (textsRef.current[i] = el)}
-                style={{
-                  opacity: i === 0 ? 1 : 0,
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  whiteSpace: "pre-wrap",
-                }}
-              >
-                <div
-                  className="headline"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, #b8860b 0%, #ffd700 40%, #ffa500 70%, #b8860b 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    marginBottom: "0.6rem",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {item.title}
-                </div>
-                <div
-                  className="body"
-                  style={{
-                    fontSize: "clamp(1rem, 1.6vw, 1.2rem)",
-                    fontWeight: 400,
-                    color: "#333",
-                  }}
-                >
-                  {item.text.split(" ").map((word, idx) => (
-                    <span
-                      key={idx}
-                      className="w"
-                      style={{ display: "inline-block", willChange: "transform, opacity", marginRight: "0.3ch" }}
-                    >
-                      {word}
-                    </span>
-                  ))}
-                </div>
+            <div
+              ref={(el) => (textsRef.current[0] = el)}
+              style={{
+                opacity: 1,
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                whiteSpace: "pre-wrap",
+              }}
+            >
+              <div className="headline" style={{ marginBottom: "0.6rem", whiteSpace: "nowrap" }}>
+                Quality Management
               </div>
-            ))}
+              <div className="body" style={{ fontSize: "clamp(1rem, 1.6vw, 1.2rem)", fontWeight: 400, color: "#333" }}>
+                Quality control and management play a key role in improving the productivity of businesses. This section showcases how these practices can be implemented within our system.
+              </div>
+            </div>
 
             <div
-              ref={shimmerRef}
+              ref={(el) => (textsRef.current[1] = el)}
               style={{
+                opacity: 0,
                 position: "absolute",
-                top: "-50%",
-                left: "-150%",
-                width: "20%",
-                height: "200%",
-                background:
-                  "linear-gradient(120deg, rgba(255,215,0,0) 40%, rgba(255,255,180,1) 50%, rgba(255,140,0,0) 60%)",
-                transform: "rotate(20deg)",
-                pointerEvents: "none",
-                opacity: 0.5,
-                mixBlendMode: "screen",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                whiteSpace: "pre-wrap",
               }}
-            />
+            >
+              <div className="headline" style={{ marginBottom: "0.6rem", whiteSpace: "nowrap" }}>
+                E-commerce Solutions
+              </div>
+              <div className="body" style={{ fontSize: "clamp(1rem, 1.6vw, 1.2rem)", fontWeight: 400, color: "#333" }}>
+                We provide innovative and efficient solutions for modern e-commerce platforms, enhancing customer experience and driving growth in the digital marketplace.
+              </div>
+            </div>
 
             <div
-              ref={shimmerAuraRef}
+              ref={(el) => (textsRef.current[2] = el)}
               style={{
+                opacity: 0,
                 position: "absolute",
-                top: "-60%",
-                left: "-160%",
-                width: "140%",
-                height: "220%",
-                background:
-                  "linear-gradient(120deg, rgba(255,215,0,0) 35%, rgba(255,215,0,0.5) 50%, rgba(255,140,0,0) 65%)",
-                transform: "rotate(20deg)",
-                pointerEvents: "none",
-                opacity: 0.2,
-                filter: "blur(20px)",
-                mixBlendMode: "screen",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                whiteSpace: "pre-wrap",
               }}
-            />
+            >
+              <div className="headline" style={{ marginBottom: "0.6rem", whiteSpace: "nowrap" }}>
+                Service Automation
+              </div>
+              <div className="body" style={{ fontSize: "clamp(1rem, 1.6vw, 1.2rem)", fontWeight: 400, color: "#333" }}>
+                Automating services ensures consistency, increases efficiency, and reduces operational costs, making processes smoother and more streamlined.
+              </div>
+            </div>
+
+            <div
+              ref={(el) => (textsRef.current[3] = el)}
+              style={{
+                opacity: 0,
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                whiteSpace: "pre-wrap",
+              }}
+            >
+              <div className="headline" style={{ marginBottom: "0.6rem", whiteSpace: "nowrap" }}>
+                Industry 4.0
+              </div>
+              <div className="body" style={{ fontSize: "clamp(1rem, 1.6vw, 1.2rem)", fontWeight: 400, color: "#333" }}>
+                Industry 4.0 represents the future of industrial development, with the integration of advanced technologies to increase automation and data exchange.
+              </div>
+            </div>
           </div>
         </div>
 
@@ -390,7 +356,6 @@ export default function Scroll3DSection() {
             overflow: "hidden",
           }}
         >
-          {/* Two stacked videos for crossfade */}
           <video
             ref={videoARef}
             style={{
@@ -420,65 +385,6 @@ export default function Scroll3DSection() {
             loop
             playsInline
             autoPlay
-          />
-
-          {/* Beam sweep overlay */}
-          <div
-            ref={beamRef}
-            style={{
-              position: "absolute",
-              top: "-50%",
-              left: "-60%",
-              width: "120%",
-              height: "200%",
-              transform: "rotate(20deg)",
-              pointerEvents: "none",
-              opacity: 0,
-              background:
-                "linear-gradient(120deg, rgba(255,215,0,0) 40%, rgba(255,255,200,0.9) 52%, rgba(255,140,0,0) 64%)",
-              mixBlendMode: "screen",
-              filter: "blur(2px)",
-            }}
-          />
-
-          {/* Flash overlay */}
-          <div
-            ref={flashRef}
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: "white",
-              opacity: 0,
-              pointerEvents: "none",
-              mixBlendMode: "screen",
-            }}
-          />
-
-          {/* Vignette overlay */}
-          <div
-            ref={vignetteRef}
-            style={{
-              position: "absolute",
-              inset: 0,
-              opacity: 0,
-              pointerEvents: "none",
-              background:
-                "radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.5) 100%)",
-              mixBlendMode: "multiply",
-            }}
-          />
-          
-          {/* Optional: Add a subtle overlay for consistency */}
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              background: "rgba(16, 25, 38, 0.1)",
-              pointerEvents: "none",
-            }}
           />
         </div>
       </div>

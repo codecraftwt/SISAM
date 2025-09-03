@@ -18,7 +18,7 @@ useEffect(() => {
       paused: true, 
       scrollTrigger: {
         trigger: sectionRef.current,
-        start: "50% 80%",   
+        start: "50% 70%",   
         end: "bottom 50%",
         toggleActions: "play none none reverse",
         onEnter: () => setTrigger3D(true),     

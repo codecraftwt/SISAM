@@ -95,12 +95,12 @@ const Hero = () => {
       ScrollTrigger.create({
         trigger: heroRef.current,
         start: "top top",
-        end: "+=2000",
+        end: "+=2600",
         pin: true,
         scrub: 3,
         snap: false,
         anticipatePin: 1,
-        markers: false,
+        // markers: true,
       });
     }, heroRef);
 

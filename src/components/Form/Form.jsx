@@ -109,13 +109,14 @@ const Form = () => {
     <div
       style={{
         width: "100vw",
-        minHeight: "100vh",
+        minHeight: "70vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         overflow: "hidden",
         position: "relative",
-        // padding: "20px",
+        padding: "40px 20px",    // Space add करा
+        marginTop: "40px",
       }}
     >
       {/* Background */}
@@ -132,7 +133,7 @@ const Form = () => {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           willChange: "transform",
-          zIndex: 0,
+          zIndex: -1,
         }}
       />
 
