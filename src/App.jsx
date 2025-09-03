@@ -38,15 +38,15 @@ function App() {
     <section className=''>
        <Explore />
     </section>
-     <section className=''>
+     {/* <section className=''>
       <GridBackground/>
-    </section>
-    {/* <section className=''>
+    </section> */}
+    <section className=''>
       <Form />
-    </section> */}
-    {/* <section className=''>
+    </section>
+    <section className=''>
       <Footer />
-    </section> */}
+    </section>
     {/* <section className=''>
       <Testimonials/>
     </section> */}
