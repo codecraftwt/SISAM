@@ -36,18 +36,17 @@ function App() {
        <AboutUsSection />
     </section>
     <section className=''>
-       {/* <ExploreCardsSection /> */}
        <Explore />
     </section>
      <section className=''>
       <GridBackground/>
     </section>
-    <section className=''>
+    {/* <section className=''>
       <Form />
-    </section>
-    <section className=''>
+    </section> */}
+    {/* <section className=''>
       <Footer />
-    </section>
+    </section> */}
     {/* <section className=''>
       <Testimonials/>
     </section> */}

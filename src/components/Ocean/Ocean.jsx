@@ -164,10 +164,10 @@ export default function OceanScene({
           <ambientLight intensity={0.8} />
            <directionalLight position={[10, 12, 5]} intensity={24} />
           <Suspense fallback={null}>
-            <Cloud position={[-114, 55, -5]} scale={40} speed={cloudSpeed} opacity={1.15} />
-            <Cloud position={[12, -20, 0]} scale={26} speed={cloudSpeed} opacity={cloudOpacity} />
-            <Cloud position={[100, 92, -8]} scale={35} speed={cloudSpeed} opacity={0.9} />
-            <Cloud position={[100, 32, -8]} scale={30} speed={cloudSpeed} opacity={0.5} />
+            <Cloud position={[-114, 55, -5]} scale={40} speed={cloudSpeed} opacity={1.15} color="white" />
+            <Cloud position={[12, -20, 0]} scale={26} speed={cloudSpeed} opacity={cloudOpacity} color="white" />
+            <Cloud position={[100, 92, -8]} scale={35} speed={cloudSpeed} opacity={0.9} color="white" />
+            <Cloud position={[100, 32, -8]} scale={30} speed={cloudSpeed} opacity={0.5} color="white" />
 
           </Suspense>
         </Canvas>

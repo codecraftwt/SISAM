@@ -49,7 +49,7 @@ export default function Scroll3DSection() {
               });
             }
 
-            const totalSections = 4; // plane, ship, truck, train
+            const totalSections = 4; 
             const idx = Math.min(
               totalSections - 1,
               Math.floor(self.progress * totalSections)
@@ -67,7 +67,7 @@ export default function Scroll3DSection() {
               y: 0,
               scrollTrigger: {
                 trigger: containerRef.current,
-                start: `${i * 25}% center`, // 0-25-50-75-100
+                start: `${i * 25}% center`, 
                 end: `${(i + 1) * 25}% center`,
                 scrub: true,
               },

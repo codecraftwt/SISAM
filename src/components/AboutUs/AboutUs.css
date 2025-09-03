@@ -4,7 +4,7 @@
   padding: 5vw 10px 5vw 10px;
   display: flex;
   justify-content: center;
-  height: 110vh;
+  height: 100vh;
 }
 
 .aboutus-container {
@@ -75,7 +75,7 @@
   box-shadow: 0 2px 8px rgba(60, 60, 100, 0.08);
   cursor: pointer;
   transition: background 0.2s, transform 0.2s;
-  margin-top: 1.2rem;
+  margin-top: 1rem;
   display: inline-flex;
   align-items: center;
 }
@@ -297,5 +297,24 @@
     height: auto !important;
     border-radius: 0 !important;
     object-fit: cover;
+  }
+  .aboutus-heading{
+    font-size: 1.8rem;
+  }
+  .aboutus-highlight{
+    font-size: 1.8rem;
+  }
+  .aboutus-paragraph{
+    font-size: 1rem;
+  }
+    .aboutus-btn {
+      padding: 10px;
+      font-size: 1rem;
+    }
+   .aboutus-badge-number {
+    font-size: 1.2rem;
+  }
+  .aboutus-badge-label{
+    font-size: 0.9rem;
   }
 }

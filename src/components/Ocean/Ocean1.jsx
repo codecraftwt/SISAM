@@ -247,7 +247,7 @@ function ShipSectipn() {
                   segments={20}
                   position={[102, 22, -33]}
                   rotation={[0, (100 * Math.PI) / 180, 0]}
-                  color="white"  // ✅ correct way
+                  color="white"
                    seed={42} 
                 />
             </Float>
@@ -260,7 +260,7 @@ function ShipSectipn() {
                   segments={20}
                   position={[102, 23.3, -33]}
                   rotation={[0, (100 * Math.PI) / 180, 0]}
-                 color="#ffffff"  // ✅ correct way
+                 color="white"
                    seed={42} 
                 />
             </Float>

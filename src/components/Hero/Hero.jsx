@@ -22,7 +22,7 @@ const Hero = () => {
   const subtitleRef = useRef(null);
   const heroContentRef = useRef(null);
 
-  const [earthPosition] = useState([1.7, 0.5, -0.9]);
+  const [earthPosition] = useState([1.7, 0.79, -0.9]);
   const [earthScale] = useState(1.8);
 
   useEffect(() => {
@@ -95,7 +95,7 @@ const Hero = () => {
       ScrollTrigger.create({
         trigger: heroRef.current,
         start: "top top",
-        end: "+=2600",
+        end: "+=2000",
         pin: true,
         scrub: 3,
         snap: false,
@@ -109,7 +109,7 @@ const Hero = () => {
 
 
   return (
-    <section className="hero" ref={heroRef}>
+    <section className="hero" ref={heroRef}>.
       <Canvas className="hero-bg-canvas" style={{ position: 'absolute', top: 0, left: 0, }}>
         <Sparkles
           count={500}

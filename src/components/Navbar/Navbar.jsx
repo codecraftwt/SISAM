@@ -11,6 +11,14 @@ const NAV_ITEMS = [
   { label: 'CONTACT US', to: '/contact' },
 ];
 
+// Breakpoint definitions
+const BREAKPOINTS = {
+  MOBILE: 480,
+  TABLET: 768,
+  LAPTOP: 1024,
+  DESKTOP: 1200,
+};
+
 const Navbar = ({ onLinkClick }) => {
   const [activeIdx, setActiveIdx] = useState(0);
   const [hoverIdx, setHoverIdx] = useState(null);
@@ -19,7 +27,10 @@ const Navbar = ({ onLinkClick }) => {
   const [showWhiteBg, setShowWhiteBg] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [deviceType, setDeviceType] = useState('desktop');
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+  const [isSmallMobile, setIsSmallMobile] = useState(false);
 
   const itemRefs = useRef([]);
   const underlineRef = useRef(null);
@@ -29,8 +40,38 @@ const Navbar = ({ onLinkClick }) => {
   const scrollTimeout = useRef(null);
   const menuTimeout = useRef(null);
 
+  // Enhanced responsive breakpoint management
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    const handleResize = () => {
+      const width = window.innerWidth;
+      
+      // Determine device type
+      if (width <= BREAKPOINTS.MOBILE) {
+        setDeviceType('small-mobile');
+        setIsMobile(true);
+        setIsTablet(false);
+        setIsSmallMobile(true);
+      } else if (width <= BREAKPOINTS.TABLET) {
+        setDeviceType('mobile');
+        setIsMobile(true);
+        setIsTablet(false);
+        setIsSmallMobile(false);
+      } else if (width <= BREAKPOINTS.LAPTOP) {
+        setDeviceType('tablet');
+        setIsMobile(false);
+        setIsTablet(true);
+        setIsSmallMobile(false);
+      } else {
+        setDeviceType('desktop');
+        setIsMobile(false);
+        setIsTablet(false);
+        setIsSmallMobile(false);
+      }
+    };
+
+    // Initial call
+    handleResize();
+    
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -39,7 +80,7 @@ const Navbar = ({ onLinkClick }) => {
     const idx = hoverIdx !== null ? hoverIdx : activeIdx;
     const elem = itemRefs.current[idx];
     const underline = underlineRef.current;
-    if (elem && underline && !isMobile) {
+    if (elem && underline && !isMobile && !isTablet) {
       const { offsetLeft, offsetWidth } = elem;
       gsap.to(underline, {
         left: offsetLeft,
@@ -49,13 +90,21 @@ const Navbar = ({ onLinkClick }) => {
         ease: 'expo.out',
       });
     }
-  }, [activeIdx, hoverIdx, isMobile]);
+  }, [activeIdx, hoverIdx, isMobile, isTablet]);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const atTop = currentScrollY === 0;
       setIsAtTop(atTop);
+      
+      // Disable scroll-based navbar hiding on small mobile devices for better UX
+      if (isSmallMobile) {
+        setShowNavbar(true);
+        setShowWhiteBg(false);
+        return;
+      }
+      
       if (atTop) {
         setShowNavbar(true);
         setShowWhiteBg(false);
@@ -63,9 +112,10 @@ const Navbar = ({ onLinkClick }) => {
         lastScrollY.current = currentScrollY;
         return;
       }
+      
       if (currentScrollY < lastScrollY.current) {
         setShowNavbar(true);
-        setShowWhiteBg(true);
+        setShowWhiteBg(false);
         if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
         scrollTimeout.current = setTimeout(() => {
           if (!isHovering) {
@@ -80,12 +130,13 @@ const Navbar = ({ onLinkClick }) => {
       }
       lastScrollY.current = currentScrollY;
     };
+    
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
       if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
     };
-  }, [isHovering]);
+  }, [isHovering, isSmallMobile]);
 
   useEffect(() => {
     if (navbarRef.current) {
@@ -108,12 +159,15 @@ const Navbar = ({ onLinkClick }) => {
   }, []);
 
   const handleNavbarMouseEnter = () => {
+    if (isSmallMobile) return; // Disable hover effects on small mobile
     setIsHovering(true);
     setShowNavbar(true);
-    setShowWhiteBg(true);
+    setShowWhiteBg(false);
     if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
   };
+  
   const handleNavbarMouseLeave = () => {
+    if (isSmallMobile) return; // Disable hover effects on small mobile
     setIsHovering(false);
     if (!isAtTop) {
       scrollTimeout.current = setTimeout(() => {
@@ -128,6 +182,7 @@ const Navbar = ({ onLinkClick }) => {
   };
 
   const handleMenuMouseEnter = () => {
+    if (isMobile || isSmallMobile) return; // Disable hover on mobile
     if (menuTimeout.current) {
       clearTimeout(menuTimeout.current);
       menuTimeout.current = null;
@@ -136,6 +191,7 @@ const Navbar = ({ onLinkClick }) => {
   };
 
   const handleMenuMouseLeave = () => {
+    if (isMobile || isSmallMobile) return; // Disable hover on mobile
     if (menuTimeout.current) {
       clearTimeout(menuTimeout.current);
     }
@@ -145,9 +201,26 @@ const Navbar = ({ onLinkClick }) => {
     }, 1000); 
   };
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowMenu(false);
+      }
+    };
+
+    if (showMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showMenu]);
+
   return (
     <nav
-      className={`navbar${showWhiteBg ? ' white-bg' : ''}`}
+      className={`navbar navbar-${deviceType}${showWhiteBg ? ' white-bg' : ''}`}
       ref={navbarRef}
       onMouseEnter={handleNavbarMouseEnter}
       onMouseLeave={handleNavbarMouseLeave}
@@ -163,7 +236,7 @@ const Navbar = ({ onLinkClick }) => {
           </div>
         </div>
 
-        {/* Desktop Nav */}
+        {/* Desktop/Tablet Nav */}
         {!isMobile && (
           <ul className="navbar-main" style={{ position: 'relative' }}>
             {NAV_ITEMS.map((item, idx) => (
@@ -171,8 +244,8 @@ const Navbar = ({ onLinkClick }) => {
                 key={item.label}
                 ref={elem => (itemRefs.current[idx] = elem)}
                 className={idx === activeIdx ? 'active' : ''}
-                onMouseEnter={() => setHoverIdx(idx)}
-                onMouseLeave={() => setHoverIdx(null)}
+                onMouseEnter={() => !isTablet && setHoverIdx(idx)}
+                onMouseLeave={() => !isTablet && setHoverIdx(null)}
                 onClick={() => {
                   setActiveIdx(idx);
                   if (onLinkClick) onLinkClick(item.label, idx, item.to); 
@@ -184,17 +257,24 @@ const Navbar = ({ onLinkClick }) => {
                 </span>
               </li>
             ))}
-            <div
-              ref={underlineRef}
-              className="navbar-underline"
-            />
+            {!isTablet && (
+              <div
+                ref={underlineRef}
+                className="navbar-underline"
+              />
+            )}
           </ul>
         )}
 
         {/* Mobile Nav */}
         {isMobile && (
           <div className="mobile-menu">
-            <button className="hamburger" onClick={handleMenuClick} aria-label="Open menu">
+            <button 
+              className={`hamburger ${showMenu ? 'active' : ''}`} 
+              onClick={handleMenuClick} 
+              aria-label="Toggle menu"
+              aria-expanded={showMenu}
+            >
               <span className="bar"></span>
               <span className="bar"></span>
               <span className="bar"></span>
@@ -215,13 +295,22 @@ const Navbar = ({ onLinkClick }) => {
                   </button>
                 ))}
                 <div className="menu-divider"></div>
-                <button className="menu-item" onClick={() => console.log('Track Your Order clicked')}>
+                <button className="menu-item" onClick={() => {
+                  console.log('Track Your Order clicked');
+                  setShowMenu(false);
+                }}>
                   Track Your Order
                 </button>
-                <button className="menu-item" onClick={() => console.log('Free Returns clicked')}>
+                <button className="menu-item" onClick={() => {
+                  console.log('Free Returns clicked');
+                  setShowMenu(false);
+                }}>
                   Free Returns
                 </button>
-                <button className="menu-item" onClick={() => console.log('Customer Service clicked')}>
+                <button className="menu-item" onClick={() => {
+                  console.log('Customer Service clicked');
+                  setShowMenu(false);
+                }}>
                   Customer Service
                 </button>
               </div>
@@ -246,15 +335,24 @@ const Navbar = ({ onLinkClick }) => {
             </div>
             {showMenu && (
               <div className="menu-dropdown" ref={menuRef}>
-                <button className="menu-item" onClick={() => console.log('Track Your Order clicked')}>
+                <button className="menu-item" onClick={() => {
+                  console.log('Track Your Order clicked');
+                  setShowMenu(false);
+                }}>
                   <span>Track Your Order</span>
                 </button>
                 <div className="menu-divider"></div>
-                <button className="menu-item" onClick={() => console.log('Free Returns clicked')}>
+                <button className="menu-item" onClick={() => {
+                  console.log('Free Returns clicked');
+                  setShowMenu(false);
+                }}>
                   <span>Free Returns</span>
                 </button>
                 <div className="menu-divider"></div>
-                <button className="menu-item" onClick={() => console.log('Customer Service clicked')}>
+                <button className="menu-item" onClick={() => {
+                  console.log('Customer Service clicked');
+                  setShowMenu(false);
+                }}>
                   <span>Customer Service</span>
                 </button>
               </div>
