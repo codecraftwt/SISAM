@@ -24,6 +24,12 @@ export default function Scroll3DSection() {
 
   const videoSources = [Warehouse, Ecommerce, Service, Industry];
 
+
+
+
+
+
+
   useEffect(() => {
     let ctx;
     if (containerRef.current) {
@@ -246,7 +252,7 @@ export default function Scroll3DSection() {
           height: "100vh",
           width: "100vw",
           display: "flex",
-          flexDirection: "column", // Column direction by default
+          flexDirection: "column", 
         }}
       >
         <div
@@ -259,7 +265,94 @@ export default function Scroll3DSection() {
             overflow: "hidden",
           }}
         >
-          {/* Content goes here */}
+          <div
+            style={{
+              textAlign: "center",
+              position: "relative",
+              maxWidth: "80%",
+              fontSize: "clamp(1.8rem, 3vw, 3rem)",
+              fontWeight: 700,
+              lineHeight: 1.3,
+              color: "#000000",
+            }}
+          >
+            <div
+              ref={(el) => (textsRef.current[0] = el)}
+              style={{
+                opacity: 1,
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                whiteSpace: "pre-wrap",
+              }}
+            >
+              <div className="headline" style={{ marginBottom: "0.6rem", whiteSpace: "nowrap" }}>
+                Quality Management
+              </div>
+              <div className="body" style={{ fontSize: "clamp(1rem, 1.6vw, 1.2rem)", fontWeight: 400, color: "#333" }}>
+                Quality control and management play a key role in improving the productivity of businesses. This section showcases how these practices can be implemented within our system.
+              </div>
+            </div>
+
+            <div
+              ref={(el) => (textsRef.current[1] = el)}
+              style={{
+                opacity: 0,
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                whiteSpace: "pre-wrap",
+              }}
+            >
+              <div className="headline" style={{ marginBottom: "0.6rem", whiteSpace: "nowrap" }}>
+                E-commerce Solutions
+              </div>
+              <div className="body" style={{ fontSize: "clamp(1rem, 1.6vw, 1.2rem)", fontWeight: 400, color: "#333" }}>
+                We provide innovative and efficient solutions for modern e-commerce platforms, enhancing customer experience and driving growth in the digital marketplace.
+              </div>
+            </div>
+
+            <div
+              ref={(el) => (textsRef.current[2] = el)}
+              style={{
+                opacity: 0,
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                whiteSpace: "pre-wrap"
+              }}
+            >
+              <div className="headline" style={{ marginBottom: "0.6rem", whiteSpace: "nowrap" }}>
+                Service Automation
+              </div>
+              <div className="body" style={{ fontSize: "clamp(1rem, 1.6vw, 1.2rem)", fontWeight: 400, color: "#333" }}>
+                Automating services ensures consistency, increases efficiency, and reduces operational costs, making processes smoother and more streamlined.
+              </div>
+            </div>
+
+            <div
+              ref={(el) => (textsRef.current[3] = el)}
+              style={{
+                opacity: 0,
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                whiteSpace: "pre-wrap",
+
+              }}
+            >
+              <div className="headline" style={{ marginBottom: "0.6rem", whiteSpace: "nowrap" }}>
+                Industry 4.0
+              </div>
+              <div className="body" style={{ fontSize: "clamp(1rem, 1.6vw, 1.2rem)", fontWeight: 400, color: "#333" }}>
+                Industry 4.0 represents the future of industrial development, with the integration of advanced technologies to increase automation and data exchange.
+              </div>
+            </div>
+          </div>
         </div>
 
         <div
@@ -270,26 +363,39 @@ export default function Scroll3DSection() {
             overflow: "hidden",
           }}
         >
-          {/* Video goes here */}
+
+          <video
+            ref={videoARef}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              opacity: 0,
+            }}
+            muted
+            loop
+            playsInline
+            autoPlay
+          />
+          <video
+            ref={videoBRef}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              opacity: 0,
+            }}
+            muted
+            loop
+            playsInline
+            autoPlay
+          />
         </div>
       </div>
-      {/* Add media query */}
-      <style>
-        {`
-          @media (max-width: 1023px) {
-            .container {
-              flex-direction: row;
-            }
-            .video-container {
-              width: 100%;
-              height: 50vh;
-            }
-            .text-container {
-              width: 100%;
-            }
-          }
-        `}
-      </style>
     </div>
   );
 }
