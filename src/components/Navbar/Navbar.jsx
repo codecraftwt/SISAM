@@ -11,7 +11,6 @@ const NAV_ITEMS = [
   { label: 'CONTACT US', to: '/contact' },
 ];
 
-// Breakpoint definitions
 const BREAKPOINTS = {
   MOBILE: 480,
   TABLET: 768,
@@ -40,7 +39,6 @@ const Navbar = ({ onLinkClick }) => {
   const scrollTimeout = useRef(null);
   const menuTimeout = useRef(null);
 
-  // Enhanced responsive breakpoint management
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
@@ -69,7 +67,6 @@ const Navbar = ({ onLinkClick }) => {
       }
     };
 
-    // Initial call
     handleResize();
     
     window.addEventListener('resize', handleResize);

@@ -18,12 +18,12 @@ useEffect(() => {
       paused: true, 
       scrollTrigger: {
         trigger: sectionRef.current,
-        start: "50% 70%",   
+        start: "10% 80%",   
         end: "bottom 50%",
         toggleActions: "play none none reverse",
         onEnter: () => setTrigger3D(true),     
         onLeaveBack: () => setTrigger3D(false) ,
-        // markers: true,
+        markers: true,
       }
     });
 
@@ -33,7 +33,7 @@ useEffect(() => {
     )
     .fromTo('.aboutus-paragraph',
       { opacity: 0, y: 40 },
-      { opacity: 1, y: 0, duration: 1, ease: 'power3.out', stagger: 0.15 },
+      { opacity: 1, y: 0, duration: 1, ease: 'power3.out', stagger: 0.25 },
       "-=0.5"
     )
     .fromTo('.aboutus-btn',
@@ -43,7 +43,7 @@ useEffect(() => {
     )
     .fromTo('.aboutus-video',
       { opacity: 0, scale: 0.95, x: 60 },
-      { opacity: 1, scale: 1, x: 0, duration: 1, ease: 'power3.out' },
+      { opacity: 1, scale: 1, x: 0, duration: 1, ease: 'power3.out',delay:0.9 },
       "-=0.4"
     )
     .fromTo('.aboutus-badge',

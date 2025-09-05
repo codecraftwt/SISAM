@@ -7,7 +7,6 @@ import TravelingShip from "./utils/TravelingShip";
 import TravelingTruck from "./utils/TravelingTruck";
 import gsap from "gsap";
 
-// Convert lat/lng → 3D vector
 function latLngToVector3(lat, lng, radius = 1.22, offset = 0.02) {
   const phi = THREE.MathUtils.degToRad(90 - lat);
   const theta = THREE.MathUtils.degToRad(lng);
@@ -131,7 +130,6 @@ export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
       z: 48,
       y: 48,
       duration: 5,
-      delay: 1,
       yoyo: true,
       scrollTrigger: {
         scrub: 4,
@@ -179,11 +177,11 @@ export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
 
     // Cloud 1
     const targetY = cloudRef.current.position.y;
-    const dummy = { y: -2.9 };
+    const dummy = { y: -3.5 };
     gsap.from(dummy, {
       y: targetY,
-      delay: 6,
-      duration: 6,
+      delay: 4,
+      duration: 4,
       ease: "power2.out",
       scrollTrigger: {
         scrub: 4,
@@ -198,11 +196,11 @@ export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
 
     // Cloud 2
     const target2Y = cloudRefSecond.current.position.y;
-    const dummy2 = { y: 0.5 };
+    const dummy2 = { y: 1.5 };
     gsap.from(dummy2, {
       y: target2Y,
-      delay: 6,
-      duration: 6,
+      delay: 4,
+      duration: 4,
       ease: "power2.out",
       scrollTrigger: {
         scrub: 4,
@@ -210,7 +208,7 @@ export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
       },
       onUpdate: () => {
         if (cloudRefSecond.current) {
-          cloudRefSecond.current.position.y = dummy2.y; // ✅ fixed
+          cloudRefSecond.current.position.y = dummy2.y; 
         }
       },
     });

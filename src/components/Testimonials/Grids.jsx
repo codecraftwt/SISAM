@@ -282,7 +282,7 @@ export default function Scroll3DSection() {
               }}
             >
               <div className="headline" style={{ marginBottom: "0.6rem", whiteSpace: "nowrap" }}>
-                Quality Management
+                Quality Management 
               </div>
               <div className="body" style={{ fontSize: "clamp(1rem, 1.6vw, 1.2rem)", fontWeight: 400, color: "#333" }}>
                 Quality control and management play a key role in improving the productivity of businesses. This section showcases how these practices can be implemented within our system.

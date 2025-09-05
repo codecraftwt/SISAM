@@ -95,7 +95,7 @@ const Hero = () => {
       ScrollTrigger.create({
         trigger: heroRef.current,
         start: "top top",
-        end: "+=2600",
+        end: "+=2200",
         pin: true,
         scrub: 3,
         snap: false,

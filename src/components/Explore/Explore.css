@@ -10,12 +10,12 @@
 .background {
   position: absolute;
   inset: 0;
-  background-image: url("../../assets/explorebg.jpg");
+  /* background-image: url("../../assets/explorebg.jpg");
   background-position: center;
-  background-size: cover;
-  /* background-color: #ffc107; */
-  filter: blur(8px) brightness(0.8);
-  z-index: -2;
+  background-size: cover; */
+  background-color: #ffffff;
+  /* filter: blur(8px) brightness(0.8); */
+  /* z-index: -2; */
 }
 
 .overlay {
@@ -46,15 +46,17 @@
 }
 
 .explore-heading {
-  font-weight: 600;
-  font-size: 48px;
-  color: #1e3a8a;
-  margin-bottom: 8px;
-  letter-spacing: -0.02em;
+ font-size: 2.8rem;
+  font-weight: 800;
+  color: #013567;
+  margin-bottom: 1.2rem;
+  line-height: 1.1;
+  position: relative;
 }
 
 .highlight-text {
   color: #ffc107;
+  font-weight: 800;
 }
 
 .header-description {
