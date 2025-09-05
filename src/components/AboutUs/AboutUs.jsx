@@ -23,7 +23,7 @@ useEffect(() => {
         toggleActions: "play none none reverse",
         onEnter: () => setTrigger3D(true),     
         onLeaveBack: () => setTrigger3D(false) ,
-        markers: true,
+        // markers: true,
       }
     });
 
