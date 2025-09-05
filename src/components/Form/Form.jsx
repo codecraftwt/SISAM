@@ -115,8 +115,8 @@ const Form = () => {
         justifyContent: "center",
         overflow: "hidden",
         position: "relative",
-        padding: "40px 20px",    // Space add करा
-        marginTop: "40px",
+        padding: "40px 20px",   
+        // marginTop: "40px",
       }}
     >
       {/* Background */}

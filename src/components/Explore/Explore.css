@@ -61,10 +61,13 @@
 
 .header-description {
   max-width: 570px;
-  font-size: 16px;
+  font-size: 1;
+  /* color: #ffffff; */
+  color: #555e6c;
+   font-size: 1.13rem;
+  margin-bottom: 1.1rem;
   line-height: 1.7;
-  opacity: 0.9;
-  color: #ffffff;
+
 }
 
 .explore-button {
