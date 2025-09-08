@@ -20,7 +20,7 @@ export default function Scroll3DSection() {
   const beamRef = useRef(null);
   const activeIsARef = useRef(true);
   const vignetteRef = useRef(null);
-  const videoSources = ["https://www.pexels.com/download/video/4477603/", "https://www.pexels.com/download/video/30899351/", "https://www.pexels.com/download/video/30899272/", "https://www.pexels.com/download/video/26798002/"];
+  const videoSources = ["https://www.pexels.com/download/video/4477603/", "https://cdn.pixabay.com/video/2019/04/23/23008-332257750_tiny.mp4", "https://cdn.pixabay.com/video/2025/03/13/264433_tiny.mp4", "https://www.pexels.com/download/video/33388036/"];
 
   useEffect(() => {
     let ctx;
