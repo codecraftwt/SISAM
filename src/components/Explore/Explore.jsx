@@ -2,9 +2,8 @@ import React, { useRef } from "react";
 import gsap from "gsap";
 import ExploreBg from "/assets/explorebg.jpg";
 // import Land from "/assets/land.mp4";
-import Land from "../../../public/assets/land.mp4";
-import Air from "/assets/Air.mp4";
-import Water from "/assets/Water.mp4";
+// import Air from "/assets/Air.mp4";
+// import Water from "/assets/Water.mp4";
 import './Explore.css'
 // Example logos (replace with your PNG files)
 import LandLogo from "/assets/road.png";
@@ -19,7 +18,7 @@ const cards = [
       "With a worldwide organization and progressed coordination arrangements, our airship cargo sending items.",
     points: ["Part & Full Loads", "Multimodal Solutions", "Intermodal Solutions"],
     accent: "#FFBC00",
-    video: Land,
+    video: "/assets/land.mp4",
   },
   {
     logo: AirLogo,
@@ -28,7 +27,7 @@ const cards = [
       "We help transport your load anyplace on the planet, making your business run easily regardless of where products.",
     points: ["General Air Freight Products", "Charter Services", "Intermodal Solutions"],
     accent: "#1D6FFA",
-    video: Air,
+    video: "/assets/Air.mp4",
   },
   {
     logo: WaterLogo,
@@ -37,7 +36,7 @@ const cards = [
       "Sea cargo dispatches in excess of 5,500 holders per day to ports all around the globe, making us a top forwarder.",
     points: ["Less-than-container Load", "Full Container Load", "Intermodal Solutions"],
     accent: "#00B8D4",
-    video: Water,
+    video: "/assets/Water.mp4",
   },
 ];
 
