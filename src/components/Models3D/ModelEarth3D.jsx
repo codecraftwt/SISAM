@@ -287,11 +287,11 @@ export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
       </group>
 
       <group ref={cloudRefSecond} position={[-1.5, -4.8, 3.2]}>
-        <Cloud opacity={2} width={80} depth={10} segments={20} seed={42} color="white" />
+        <Cloud opacity={2} width={80} depth={10} segments={20} seed={43} color="white" />
       </group>
 
       <group ref={cloudRefSecond} position={[-1.5, -5, 3.2]}>
-        <Cloud  opacity={8} width={80} depth={10} segments={20} seed={42} color="white" />
+        <Cloud  opacity={8} width={80} depth={10} segments={20} seed={44} color="white" />
       </group>
       
     </>
