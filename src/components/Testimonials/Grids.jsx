@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Ecommerce from "/assets/ecommerce.mp4";
-import Service from "/assets/service.mp4";
-import Warehouse from "/assets/warehouse.mp4";
-import Industry from "/assets/industry.mp4";
+// import Ecommerce from "/assets/ecommerce.mp4";
+// import Service from "/assets/service.mp4";
+// import Warehouse from "/assets/warehouse.mp4";
+// import Industry from "/assets/industry.mp4";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,7 +20,12 @@ export default function Scroll3DSection() {
   const beamRef = useRef(null);
   const activeIsARef = useRef(true);
   const vignetteRef = useRef(null);
-  const videoSources = [Warehouse, Ecommerce, Service, Industry];
+const videoSources = [
+  "/assets/ecommerce.mp4",
+  "/assets/service.mp4",
+  "/assets/warehouse.mp4",
+  "/assets/industry.mp4"
+];
 
   useEffect(() => {
     let ctx;
@@ -337,7 +342,7 @@ export default function Scroll3DSection() {
               }}
             >
               <div className="headline" style={{ marginBottom: "0.6rem", whiteSpace: "nowrap" }}>
-                Industry 4.0
+                Industry 
               </div>
               <div className="body" style={{ fontSize: "clamp(1rem, 1.6vw, 1.2rem)", fontWeight: 400, color: "#333" }}>
                 Industry 4.0 represents the future of industrial development, with the integration of advanced technologies to increase automation and data exchange.
