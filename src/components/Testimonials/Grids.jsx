@@ -10,7 +10,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Scroll3DSection() {
   const [sectionIndex, setSectionIndex] = useState(0);
-
   const containerRef = useRef(null);
   const textsRef = useRef([]);
   const shimmerRef = useRef(null);
@@ -21,7 +20,6 @@ export default function Scroll3DSection() {
   const beamRef = useRef(null);
   const activeIsARef = useRef(true);
   const vignetteRef = useRef(null);
-
   const videoSources = [Warehouse, Ecommerce, Service, Industry];
 
   useEffect(() => {
