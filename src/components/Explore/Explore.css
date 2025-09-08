@@ -205,9 +205,9 @@
 
 @media (max-width: 476px) {
     .explore-heading {
-        font-weight: 600;
+        font-weight: 800;
         font-size: 1.8rem;
-        color: #1e3a8a;
+        color: #013567;
         margin-bottom: 8px;
         letter-spacing: -0.02em;
     }
@@ -244,7 +244,7 @@
         background-size:auto; */
         /* background-color: #ffffff; */
         height: 100%;
-        filter: blur(8px) brightness(0.8);
+        /* filter: blur(8px) brightness(0.8); */
         z-index: -2;
     }
   }
