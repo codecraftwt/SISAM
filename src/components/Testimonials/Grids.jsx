@@ -21,10 +21,10 @@ export default function Scroll3DSection() {
   const activeIsARef = useRef(true);
   const vignetteRef = useRef(null);
 const videoSources = [
-  "/assets/ecommerce.mp4",
-  "/assets/service.mp4",
-  "/assets/warehouse.mp4",
-  "/assets/industry.mp4"
+  "https://www.pexels.com/download/video/4477603/",
+  "https://www.pexels.com/download/video/10451873/",
+  "https://www.pexels.com/download/video/32750419/",
+  "https://www.pexels.com/download/video/28075120/"
 ];
 
   useEffect(() => {
