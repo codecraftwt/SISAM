@@ -207,19 +207,20 @@ export default function OceanScene({
       </Canvas>
 
       {/* Text content */}
-      <div
+      {/* <div
         ref={(el) => (textsRef.current[0] = el)}
         style={{
           opacity: 0,
           position: "absolute",
           top: "15%",
-          left: "25%",
+          left: "50%",
           transform: "translate(-50%, -50%)",
           color: "#013567",
           fontSize: "clamp(1.8rem, 3vw, 3rem)",
           fontWeight: 700,
           lineHeight: 1.3,
           zIndex: 0.5, 
+           
         }}
       >
         <div className="headline" style={{color:"#013567"}}>Sailing Across  <span style={{color:"#ffc300"}}>Boundaries</span></div>
@@ -229,7 +230,7 @@ export default function OceanScene({
         <div className="body" style={{ fontSize: "clamp(1rem, 1.6vw, 1.2rem)", fontWeight: 400, color: "#fffccc" }}>
         Connecting Businesses Worldwide
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
