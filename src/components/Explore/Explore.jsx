@@ -18,7 +18,7 @@ const cards = [
       "With a worldwide organization and progressed coordination arrangements, our airship cargo sending items.",
     points: ["Part & Full Loads", "Multimodal Solutions", "Intermodal Solutions"],
     accent: "#FFBC00",
-    video: "/assets/land.mp4",
+    video: "https://www.pexels.com/download/video/20654634/",
   },
   {
     logo: AirLogo,
@@ -27,7 +27,7 @@ const cards = [
       "We help transport your load anyplace on the planet, making your business run easily regardless of where products.",
     points: ["General Air Freight Products", "Charter Services", "Intermodal Solutions"],
     accent: "#1D6FFA",
-    video: "/assets/Air.mp4",
+    video: "https://www.pexels.com/download/video/5928077/",
   },
   {
     logo: WaterLogo,
@@ -36,7 +36,7 @@ const cards = [
       "Sea cargo dispatches in excess of 5,500 holders per day to ports all around the globe, making us a top forwarder.",
     points: ["Less-than-container Load", "Full Container Load", "Intermodal Solutions"],
     accent: "#00B8D4",
-    video: "/assets/Water.mp4",
+    video: "https://www.pexels.com/download/video/856277/",
   },
 ];
 
