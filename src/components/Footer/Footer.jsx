@@ -10,7 +10,7 @@ import {
   FaTelegramPlane,
   FaLinkedin,
 } from "react-icons/fa";
-import logo from "../../assets/Sisamlogo.png";
+import logo from "/assets/Sisamlogo.png";
 
 function createCircleTexture() {
   const size = 128;

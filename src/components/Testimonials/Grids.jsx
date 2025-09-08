@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Ecommerce from "../../assets/ecommerce.mp4";
-import Service from "../../assets/service.mp4";
-import Warehouse from "../../assets/warehouse.mp4";
-import Industry from "../../assets/industry.mp4";
+import Ecommerce from "/assets/ecommerce.mp4";
+import Service from "/assets/service.mp4";
+import Warehouse from "/assets/warehouse.mp4";
+import Industry from "/assets/industry.mp4";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,12 +24,6 @@ export default function Scroll3DSection() {
 
   const videoSources = [Warehouse, Ecommerce, Service, Industry];
 
-
-
-
-
-
-
   useEffect(() => {
     let ctx;
     if (containerRef.current) {
@@ -47,7 +41,6 @@ export default function Scroll3DSection() {
                 duration: 0.1,
               });
             }
-
             const totalSections = 4;
             const idx = Math.min(
               totalSections - 1,

@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 // import ship from "../models/ship.glb"; 
-import ship from "../../../assets/GlbModels/ship.glb"; 
+import ship from "/assets/GlbModels/ship.glb"; 
 
 function latLngToVector3(lat, lng, radius = 1.22, offset = 0) {
   const phi = THREE.MathUtils.degToRad(90 - lat);

@@ -3,7 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
-import aeroplane from '../../assets/GlbModels/aeroplane.glb';
+import aeroplane from '/assets/GlbModels/aeroplane.glb';
 function getSCurvePoints(viewWidth, viewHeight) {
   return [
     new THREE.Vector3(-viewWidth / 1.1 + 0.5,  viewHeight / 1 - 0.5, 0), 
@@ -15,7 +15,7 @@ function getSCurvePoints(viewWidth, viewHeight) {
 
 function PlaneModel({ progress, curve, scale: modelScale }) {
   const ref = useRef();
-  // const { scene } = useGLTF(require('../../assets/GlbModels/aeroplane.glb'));
+  // const { scene } = useGLTF(require('/assets/GlbModels/aeroplane.glb'));
   const { scene } = useGLTF(aeroplane);
   const propeller = scene.getObjectByName('propeller') || scene.getObjectByName('Propeller');
 

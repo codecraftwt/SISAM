@@ -2,7 +2,7 @@ import React, { useRef, useMemo, useEffect } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { useGLTF, Cloud } from "@react-three/drei";
 import * as THREE from "three";
-import plane from "../../assets/GlbModels/aeroplane.glb";
+import plane from "/assets/GlbModels/aeroplane.glb";
 import TravelingShip from "./utils/TravelingShip";
 import TravelingTruck from "./utils/TravelingTruck";
 import gsap from "gsap";

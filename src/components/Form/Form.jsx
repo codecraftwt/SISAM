@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import bgimg from "../../assets/bgimg.jpg";
+import bgimg from "/assets/bgimg.jpg";
 
 const inputStyle = {
   padding: "14px 18px",

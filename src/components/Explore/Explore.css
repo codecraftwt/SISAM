@@ -10,7 +10,7 @@
 .background {
   position: absolute;
   inset: 0;
-  /* background-image: url("../../assets/explorebg.jpg");
+  /* background-image: url("/assets/explorebg.jpg");
   background-position: center;
   background-size: cover; */
   background-color: #ffffff;
@@ -239,7 +239,7 @@
     .background {
         position: absolute;
         inset: 0;
-        /* background-image: url("../../assets/explorebg.jpg");
+        /* background-image: url("/assets/explorebg.jpg");
         background-position: center;
         background-size:auto; */
         /* background-color: #ffffff; */

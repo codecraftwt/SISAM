@@ -1,14 +1,14 @@
 import React, { useRef } from "react";
 import gsap from "gsap";
-import ExploreBg from "./../../assets/explorebg.jpg";
-import Land from "./../../assets/land.mp4";
-import Air from "./../../assets/Air.mp4";
-import Water from "./../../assets/Water.mp4";
+import ExploreBg from "/assets/explorebg.jpg";
+import Land from "/assets/land.mp4";
+import Air from "/assets/Air.mp4";
+import Water from "/assets/Water.mp4";
 import './Explore.css'
 // Example logos (replace with your PNG files)
-import LandLogo from "./../../assets/road.png";
-import AirLogo from "./../../assets/air.png";
-import WaterLogo from "./../../assets/water.png";
+import LandLogo from "/assets/road.png";
+import AirLogo from "/assets/air.png";
+import WaterLogo from "/assets/water.png";
 
 const cards = [
   {

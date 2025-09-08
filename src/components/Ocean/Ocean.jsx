@@ -6,7 +6,7 @@ import { Water } from "three-stdlib";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import ship from "../../assets/GlbModels/ship.glb";
+import ship from "/assets/GlbModels/ship.glb";
 
 gsap.registerPlugin(ScrollTrigger);
 

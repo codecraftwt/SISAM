@@ -8,7 +8,7 @@ import {
 } from "@react-three/drei";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import truckModel from "../../assets/GlbModels/cargotruck.glb";
+import truckModel from "/assets/GlbModels/cargotruck.glb";
 
 gsap.registerPlugin(ScrollTrigger);
 
