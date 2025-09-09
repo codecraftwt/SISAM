@@ -1,6 +1,6 @@
 import React from "react";
 // import "../../App.css";
-import "./TruckLoader.css"
+import "./Truckloader.css"
 import { Center } from "@react-three/drei";
 
 const TruckLoader = () => {
