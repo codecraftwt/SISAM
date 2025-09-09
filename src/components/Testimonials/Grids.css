@@ -8,11 +8,11 @@
   background-size: 200% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: rgb(248, 3, 3); /* Black text color */
+  color: rgb(248, 3, 3); 
 }
 
 .shimmer-active {
-  animation: shimmerMove 2s linear forwards; /* Play shimmer effect only once */
+  animation: shimmerMove 2s linear forwards;
 }
 
 @keyframes shimmerMove {
@@ -37,7 +37,7 @@
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-/* Video section */
+
 .video-wrapper {
   position: relative;
   overflow: hidden;

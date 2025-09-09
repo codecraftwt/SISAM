@@ -1,6 +1,4 @@
-import { useState } from 'react'
-import reactLogo from '/assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
 import './App.css'
 import Hero from './components/Hero/Hero'
 import AboutUsSection from './components/AboutUs/AboutUs'
@@ -15,41 +13,51 @@ import OceanScene from './components/Ocean/Ocean'
 import Explore from './components/Explore/Explore'
 import ScrollableContent from "./components/Testimonials/Grids.jsx";
 import GridBackground from './components/Testimonials/Grids.jsx'
-
+import TruckLoader from './components/Loader/TruckLoader'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 6000);
+
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>
-    {/* <MyThree /> */}
-    <Navbar />
-    <Cursor />
+     {isLoading && (
+  <div className={`loader-overlay ${!isLoading ? "hidden" : ""}`}>
+    <TruckLoader />
+  </div>
+)}
 
-    <section className=''>
+      <Navbar />
+      <Cursor />
+      <section>
         <Hero />
-    </section>
-    <section className=''>
+      </section>
+      <section>
         <OceanScene />
-    </section>
-    <section className=''>
-       <AboutUsSection />
-    </section>
-    <section className=''>
-       <Explore />
-    </section>
-     <section className=''>
-      <GridBackground/>
-    </section>
-    <section className=''>
-      <Form />
-    </section>
-    <section className=''>
-      <Footer />
-    </section>
-    {/* <section className=''>
-      <Testimonials/>
-    </section> */}
+      </section>
+      <section>
+        <AboutUsSection />
+      </section>
+      <section>
+        <Explore />
+      </section>
+      <section>
+        <GridBackground />
+      </section>
+      <section>
+        <Form />
+      </section>
+      <section>
+        <Footer />
+      </section>
     </>
   )
 }

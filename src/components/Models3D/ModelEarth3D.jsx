@@ -216,7 +216,7 @@ export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
 
   useFrame((_, delta) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y += 0.02 * delta;
+      groupRef.current.rotation.y += 0.025 * delta;
     }
   });
 

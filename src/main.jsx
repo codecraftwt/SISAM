@@ -8,6 +8,7 @@ import OceanScene from "./components/Ocean/Ocean.jsx";
 import Hero from "./components/Hero/Hero.jsx";
 import OurSolutions from "./components/OurSolutions/OurSolutions.jsx";
 import GridBackground from "./components/Testimonials/Grids.jsx";
+import TruckLoader from "./components/Loader/TruckLoader.jsx";
 
 
 createRoot(document.getElementById("root")).render(
@@ -27,7 +28,8 @@ createRoot(document.getElementById("root")).render(
         <OceanScene /> */}
 
 {/* <OurSolutions/> */}
-<GridBackground/>
+{/* <GridBackground/> */}
+<TruckLoader/>
 
         </>} />
 

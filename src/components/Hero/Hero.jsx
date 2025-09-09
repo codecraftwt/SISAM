@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, Suspense, useState, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { Canvas } from '@react-three/fiber';
-import { Sparkles, Cloud } from '@react-three/drei';
+import { Sparkles } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import './Hero.css';
 import Earth from '../Models3D/ModelEarth3D';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-// Add smooth scrolling to the page
 if (typeof window !== 'undefined') {
   document.documentElement.style.scrollBehavior = 'smooth';
 }
@@ -22,52 +21,19 @@ const Hero = () => {
   const subtitleRef = useRef(null);
   const heroContentRef = useRef(null);
 
-  const [earthPosition] = useState([1.7, 0.79, -0.9]);
+  const [earthPosition] = useState([1.7, 0.63, -0.9]);
   const [earthScale] = useState(1.8);
 
   useEffect(() => {
-    const tl = gsap.timeline();
+    // Immediately set visible and final positions without fading or scaling animation
+    gsap.set(heroRef.current, { opacity: 1 });
+    gsap.set(subtitleRef.current, { x: 0, opacity: 1 });
+    gsap.set(textContentRef.current, { x: 0, opacity: 1 });
+    gsap.set(illustrationRef.current, { x: 0, opacity: 1, scale: 1 });
+    gsap.set(ctaButtonRef.current, { y: 0, opacity: 1, scale: 1 });
+    gsap.set(heroContentRef.current, { y: 0, opacity: 1,delay:9 });
 
-    tl.fromTo(
-      heroRef.current,
-      { opacity: 0 },
-      { opacity: 1, duration: 1, ease: 'power2.out' }
-    )
-      .fromTo(
-        subtitleRef.current,
-        { x: -400, opacity: 0 },
-        { x: 0, opacity: 1, duration: 1, ease: 'power4.out' },
-        '-=0.6'
-      )
-      .to({}, { duration: 0.2 })
-      .fromTo(
-        textContentRef.current,
-        { x: -50, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.8, ease: 'power2.out' },
-        '-=0.5'
-      )
-      .to({}, { duration: 0.3 })
-      .fromTo(
-        illustrationRef.current,
-        { x: 50, opacity: 0, scale: 0.8 },
-        { x: 0, opacity: 1, scale: 1, duration: 1, ease: 'back.out(1.7)' },
-        '-=0.6'
-      )
-      .to({}, { duration: 0.2 })
-      .fromTo(
-        ctaButtonRef.current,
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' },
-        '-=0.4'
-      )
-      .to({}, { duration: 0.4 })
-      .fromTo(
-        heroContentRef.current,
-        { y: 300, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, ease: 'power3.out' },
-        '-=0.4'
-      );
-
+    // Hover scale animation for CTA button remains the same
     const handleEnter = () => {
       gsap.to(ctaButtonRef.current, { scale: 1.05, duration: 0.3 });
     };
@@ -90,7 +56,6 @@ const Hero = () => {
 
   useLayoutEffect(() => {
     if (!heroRef.current) return;
-
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: heroRef.current,
@@ -107,10 +72,9 @@ const Hero = () => {
     return () => ctx.revert();
   }, []);
 
-
   return (
-    <section className="hero" ref={heroRef}>.
-      <Canvas className="hero-bg-canvas" style={{ position: 'absolute', top: 0, left: 0, }}>
+    <section className="hero" ref={heroRef}>
+      <Canvas className="hero-bg-canvas" style={{ position: 'absolute', top: 0, left: 0 }}>
         <Sparkles
           count={500}
           scale={[30, 30, 30]}
@@ -129,7 +93,7 @@ const Hero = () => {
         </EffectComposer>
       </Canvas>
 
-          <div className="hero-container">
+      <div className="hero-container">
         <div className="hero-illustration" ref={illustrationRef}>
           <Canvas
             camera={{ position: [0, 0, 3.4], fov: 75 }}
@@ -146,23 +110,11 @@ const Hero = () => {
             <Suspense fallback={null}>
               <Earth position={earthPosition} scale={earthScale} />
             </Suspense>
-            {/* <Suspense fallback={null}>
-              <CloudModel position={[-4, -1.2, 0]} scale={5} />
-            </Suspense> */}
-
-            {/* <OrbitControls
-              enableZoom={false}
-              enablePan={false}
-              maxPolarAngle={Math.PI}
-              minPolarAngle={0}
-              enableDamping
-              dampingFactor={0.05}
-            /> */}
           </Canvas>
         </div>
 
         <div className="hero-content" ref={heroContentRef}>
-          <div className="hero-subtitle" style={{paddingTop:"35px "}} ref={subtitleRef}>
+          <div className="hero-subtitle" style={{ paddingTop: "35px" }} ref={subtitleRef}>
             <span className="subtitle-text">INNOVATION & SPEED</span>
             <div className="subtitle-line"></div>
           </div>
@@ -178,10 +130,6 @@ const Hero = () => {
             Read More →
           </button>
         </div>
-
-        {/* <div className='hero-text' style={{fontSize:"30px" ,fontWeight:"800",color:"#212121" ,paddingLeft:"70px",paddingTop:"200px"}}> hello worldwide
-          <h2 style={{fontSize:"22px" ,fontWeight:"700",color:"#212121" }}>lorem ipsum dolor sit amet <br/> consectetur adipiscing elit sed do eiusmod tempor  <br/>incididunt ut labore et dolore magna aliqua </h2>
-        </div> */}
       </div>
     </section>
   );
