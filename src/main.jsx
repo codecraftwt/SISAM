@@ -13,7 +13,7 @@ import TruckLoader from "./components/Loader/TruckLoader.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>  
+    <BrowserRouter>
       <Routes>
         {/* Default route */}
         <Route path="/" element={<App />} />

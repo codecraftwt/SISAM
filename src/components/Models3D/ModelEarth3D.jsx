@@ -122,7 +122,6 @@ export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
     ]
   );
 
-  // Earth intro animation
   useEffect(() => {
     if (!groupRef.current) return;
     gsap.to(groupRef.current.scale, {
