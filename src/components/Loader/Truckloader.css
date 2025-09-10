@@ -37,6 +37,7 @@
   justify-content: center;
 
   animation: put-put 1.8s infinite, move-truck 10s infinite;
+  overflow: visible;
 
   -webkit-box-reflect: below 15px
     -webkit-gradient(linear, left top, left bottom,
@@ -158,6 +159,42 @@
   100% {
     transform: translateX(calc(-50vw - 180px));
     opacity: 0.5;
+  }
+}
+
+.loading-text {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgb(52, 52, 52);
+  font-size: 48px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-weight: 400;
+  text-align: center;
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@media (max-width: 1024px) {
+  .loading-text {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .loading-text {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loading-text {
+    font-size: 18px;
   }
 }
 

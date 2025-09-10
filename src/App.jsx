@@ -18,27 +18,44 @@ import TruckLoader from './components/Loader/TruckLoader'
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
+  const handleEarthLoad = () => {
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 6000);
-
+    }, 10000);
 
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (isLoading) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+      window.scrollTo(0, 0); 
+    }
+
+    return () => {
+      document.body.classList.remove('no-scroll');
+    };
+  }, [isLoading]);
 
   return (
     <>
      {isLoading && (
   <div className={`loader-overlay ${!isLoading ? "hidden" : ""}`}>
     <TruckLoader />
+    <p className="loading-text">Loading...</p>
   </div>
 )}
 
       <Navbar />
       <Cursor />
       <section>
-        <Hero />
+        <Hero onEarthLoad={handleEarthLoad} />
       </section>
       <section>
         <OceanScene />

@@ -23,15 +23,15 @@ createRoot(document.getElementById("root")).render(
 
         <Route path="/Camera" element={
           <>
-        {/* <Hero />
+            {/* <Hero />
 
         <OceanScene /> */}
 
-{/* <OurSolutions/> */}
-{/* <GridBackground/> */}
-<TruckLoader/>
+            {/* <OurSolutions/> */}
+            {/* <GridBackground/> */}
+            <TruckLoader />
 
-        </>} />
+          </>} />
 
       </Routes>
     </BrowserRouter>

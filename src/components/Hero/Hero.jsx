@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, Suspense, useState, useLayoutEffect } from 'react';
+import React, { useEffect, useRef, Suspense, useState, useLayoutEffect, useCallback, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { Canvas } from '@react-three/fiber';
 import { Sparkles } from '@react-three/drei';
@@ -13,7 +13,7 @@ if (typeof window !== 'undefined') {
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Hero = () => {
+const Hero = React.memo(() => {
   const heroRef = useRef(null);
   const textContentRef = useRef(null);
   const illustrationRef = useRef(null);
@@ -74,21 +74,26 @@ const Hero = () => {
 
   return (
     <section className="hero" ref={heroRef}>
-      <Canvas className="hero-bg-canvas" style={{ position: 'absolute', top: 0, left: 0 }}>
+      <Canvas
+        className="hero-bg-canvas"
+        style={{ position: 'absolute', top: 0, left: 0 }}
+        gl={{ antialias: false, alpha: true }}
+        dpr={[1, 2]}
+      >
         <Sparkles
-          count={500}
+          count={200}
           scale={[30, 30, 30]}
-          size={1.5}
-          speed={0.6}
-          opacity={0.8}
+          size={1.2}
+          speed={0.4}
+          opacity={0.6}
           color="#ffffff"
         />
         <EffectComposer>
           <Bloom
             luminanceThreshold={0.5}
             luminanceSmoothing={0.9}
-            height={300}
-            opacity={1.9}
+            height={200}
+            opacity={1.5}
           />
         </EffectComposer>
       </Canvas>
@@ -133,6 +138,6 @@ const Hero = () => {
       </div>
     </section>
   );
-};
+});
 
 export default Hero;

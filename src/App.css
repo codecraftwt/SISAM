@@ -5,3 +5,12 @@
   margin: 0;
 }
 
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+body.no-scroll {
+  overflow: hidden;
+}
+

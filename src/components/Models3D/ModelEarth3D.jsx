@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useEffect } from "react";
+import React, { useRef, useMemo, useEffect, useCallback } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { useGLTF, Cloud } from "@react-three/drei";
 import * as THREE from "three";
@@ -104,7 +104,7 @@ function TravelingPlane({ startLat, startLng, endLat, endLng, speed = 0.05, arcH
   return <primitive ref={planeRef} object={scene} scale={0.0025} />;
 }
 
-export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
+export default React.memo(function Earth({ position = [0, 0, 0], scale = 0.7, onLoad }) {
   const groupRef = useRef();
   const cloudsRef = useRef();
   const earthRef = useRef();
@@ -121,6 +121,12 @@ export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
       "/textures/earth_clouds.jpg",
     ]
   );
+
+  useEffect(() => {
+    if (onLoad) {
+      onLoad();
+    }
+  }, [colorMap, normalMap, specularMap, cloudsMap, onLoad]);
 
   useEffect(() => {
     if (!groupRef.current) return;
@@ -223,21 +229,14 @@ export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
     () => [
       { lat: 20.6413, lng: -77.7781 },
       { lat: 40.6413, lng: -87.7781 },
-      { lat: 0.9413, lng: -112.7781, name: "y8 down" },
-      { lat: -4.9413, lng: -30.7781, name: "ship start" },
-      { lat: -24.9413, lng: -125.7781, name: "ship end" },
-      { lat: -30.9413, lng: -20.7781 },
-      { lat: -18.9413, lng: -45.7781 },
+      { lat: 0.9413, lng: -112.7781 },
+      { lat: -4.9413, lng: -30.7781 },
+      { lat: -24.9413, lng: -125.7781 },
       { lat: 7.9413, lng: 9.7781 },
       { lat: 20.9413, lng: -45.7781 },
-      { lat: 45.9413, lng: -18.7781 },
-      { lat: 11.6413, lng: -105.7781 },
-      { lat: 29.6413, lng: -117.7781 },
-      { lat: 30.9644, lng: 103.9915, name: "y6" },
-      { lat: -20.9644, lng: 60.9915, name: "y6 down" },
-      { lat: -10.9644, lng: 170.9915, name: "y1 up" },
-      { lat: 27.9644, lng: 140.9915, name: "y1 up" },
-      { lat: -40.9644, lng: 185.9915, name: "y1 bottom" },
+      { lat: 30.9644, lng: 103.9915 },
+      { lat: -20.9644, lng: 60.9915 },
+      { lat: -10.9644, lng: 170.9915 },
     ],
     []
   );
@@ -246,7 +245,7 @@ export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
     <>
       <group ref={groupRef} position={position} scale={[scale, scale, scale]} rotation={[0, 4, 0]}>
         <mesh ref={cloudsRef} position={[0, -0.5, 0]}>
-          <sphereGeometry args={[1.225, 64, 64]} />
+          <sphereGeometry args={[1.225, 32, 32]} />
           <meshPhongMaterial
             map={cloudsMap}
             opacity={0.4}
@@ -256,7 +255,7 @@ export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
           />
         </mesh>
         <mesh ref={earthRef} position={[0, -0.5, 0]}>
-          <sphereGeometry args={[1.22, 64, 64]} />
+          <sphereGeometry args={[1.22, 32, 32]} />
           <meshPhongMaterial
             map={colorMap}
             normalMap={normalMap}
@@ -292,7 +291,8 @@ export default function Earth({ position = [0, 0, 0], scale = 0.7 }) {
       <group ref={cloudRefSecond} position={[-1.5, -5, 3.2]}>
         <Cloud  opacity={8} width={80} depth={10} segments={20} seed={44} color="white" />
       </group>
-      
+
     </>
   );
-}
+});
+
