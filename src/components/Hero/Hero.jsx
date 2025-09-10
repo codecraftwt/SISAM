@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, Suspense, useState, useLayoutEffect, useCallback, useMemo } from 'react';
 import { gsap } from 'gsap';
-import { Canvas } from '@react-three/fiber';
-import { Sparkles } from '@react-three/drei';
+import { Canvas, useLoader } from '@react-three/fiber';
+import { Sparkles, useGLTF } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import './Hero.css';
 import Earth from '../Models3D/ModelEarth3D';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import * as THREE from 'three';
 
 if (typeof window !== 'undefined') {
   document.documentElement.style.scrollBehavior = 'smooth';
@@ -25,6 +26,25 @@ const Hero = React.memo(() => {
   const [earthScale] = useState(1.8);
 
   useEffect(() => {
+    // Preload Earth model assets
+    const preloadAssets = async () => {
+      // Preload textures
+      const textureLoader = new THREE.TextureLoader();
+      const textures = [
+        "/textures/earth_daymap.jpg",
+        "/textures/earth_normal_map.jpg",
+        "/textures/earth_specular_map.jpg",
+        "/textures/earth_clouds.jpg",
+      ];
+      textures.forEach(url => textureLoader.load(url));
+
+      // Preload GLTF models
+      useGLTF.preload("/assets/GlbModels/aeroplane.glb");
+      useGLTF.preload("/assets/GlbModels/ship.glb");
+      useGLTF.preload("/assets/GlbModels/cargotruck.glb");
+    };
+    preloadAssets();
+
     // Immediately set visible and final positions without fading or scaling animation
     gsap.set(heroRef.current, { opacity: 1 });
     gsap.set(subtitleRef.current, { x: 0, opacity: 1 });
@@ -112,9 +132,7 @@ const Hero = React.memo(() => {
             <directionalLight position={[10, 12, 5]} intensity={10} />
             <pointLight position={[-10, -10, -5]} intensity={0.9} />
 
-            <Suspense fallback={null}>
               <Earth position={earthPosition} scale={earthScale} />
-            </Suspense>
           </Canvas>
         </div>
 

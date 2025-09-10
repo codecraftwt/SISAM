@@ -179,8 +179,9 @@ export default function OceanScene({
         }}
       >
         <Canvas style={{ background: "transparent" }} camera={{ position: [0, -5, 200], fov: 60 }} gl={{ alpha: true }}>
-          <ambientLight intensity={0.8} />
-          <directionalLight position={[10, 12, 5]} intensity={24} />
+          <ambientLight intensity={1.9} />
+          <directionalLight position={[10, 12, 5]} intensity={10} />
+          <pointLight position={[-10, -10, -5]} intensity={0.9} />
           <Suspense fallback={null}>
             <Cloud position={[-114, 55, -5]} scale={40} speed={cloudSpeed} opacity={1.15} color="white" />
             <Cloud position={[12, -20, 0]} scale={26} speed={cloudSpeed} opacity={cloudOpacity} color="white" />
