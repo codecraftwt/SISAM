@@ -1,11 +1,7 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import ExploreBg from "/assets/explorebg.jpg";
-// import Land from "/assets/land.mp4";
-// import Air from "/assets/Air.mp4";
-// import Water from "/assets/Water.mp4";
-import './Explore.css'
-// Example logos (replace with your PNG files)
+import './Explore.css';
 import LandLogo from "/assets/road.png";
 import AirLogo from "/assets/air.png";
 import WaterLogo from "/assets/water.png";
@@ -18,7 +14,7 @@ const cards = [
       "With a worldwide organization and progressed coordination arrangements, our airship cargo sending items.",
     points: ["Part & Full Loads", "Multimodal Solutions", "Intermodal Solutions"],
     accent: "#FFBC00",
-    video: "https://www.pexels.com/download/video/20654634/",
+    video: "https://www.pexels.com/download/video/20654634/", // Make sure your URLs point to direct video files (mp4)
   },
   {
     logo: AirLogo,
@@ -44,6 +40,15 @@ export default function ServiceCardsWithHeader() {
   const cardRefs = useRef([]);
   const timers = useRef({});
 
+  useEffect(() => {
+    cards.forEach(({ video }) => {
+      const vid = document.createElement("video");
+      vid.src = video;
+      vid.preload = "auto";
+      vid.load();
+    });
+  }, []);
+
   const flipCard = (idx, toBack) => {
     const card = cardRefs.current[idx];
     if (!card) return;
@@ -51,6 +56,12 @@ export default function ServiceCardsWithHeader() {
       rotateY: toBack ? 180 : 0,
       duration: 0.7,
       ease: "power2.inOut",
+      onStart: () => {
+        card.style.willChange = "transform";
+      },
+      onComplete: () => {
+        card.style.willChange = "auto";
+      },
     });
   };
 
@@ -62,17 +73,15 @@ export default function ServiceCardsWithHeader() {
   const handleMouseLeave = (idx) => {
     timers.current[idx] = setTimeout(() => {
       flipCard(idx, false);
-    }, 500);
+    }, 100);
   };
 
   return (
-    <div className="service-cards-container">
-      {/* Background */}
-      <div className="background" />
+    // <div className="service-cards-container" style={{ backgroundImage: `url(${ExploreBg})` }}>
+    <div className="service-cards-container" >
       <div className="overlay" />
 
       <div className="header-container">
-        {/* Header */}
         <div className="header-content">
           <div className="header-left">
             <h2 className="explore-heading">
@@ -88,7 +97,6 @@ export default function ServiceCardsWithHeader() {
         </div>
       </div>
 
-      {/* Cards */}
       <div className="cards-container">
         <div className="cards-wrapper">
           {cards.map((card, idx) => (
@@ -102,28 +110,27 @@ export default function ServiceCardsWithHeader() {
                 ref={(el) => (cardRefs.current[idx] = el)}
                 className="card"
               >
-                {/* Front Side */}
-                <div className="card-front">
+                <div className="card-front" style={{ willChange: 'transform' }}>
                   <video
                     autoPlay
                     loop
                     muted
+                    preload="auto"
+                    playsInline
                     className="card-video"
                   >
                     <source src={card.video} type="video/mp4" />
+                    Sorry, your browser doesn't support embedded videos.
                   </video>
                   <div className="card-overlay" />
-                  {/* Floating Logo */}
                   <img
                     src={card.logo}
                     alt={card.title}
                     className="card-logo"
                   />
-                  {/* Floating Title */}
                   <h3 className="card-title">{card.title}</h3>
                 </div>
 
-                {/* Back Side */}
                 <div className="card-back">
                   <div className="card-description">{card.description}</div>
                   <ul className="card-points">

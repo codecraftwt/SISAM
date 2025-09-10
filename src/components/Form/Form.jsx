@@ -21,6 +21,11 @@ const Form = () => {
   const bgRef = useRef();
 
   useEffect(() => {
+    // Preload background image
+    const img = new Image();
+    img.src = bgimg;
+
+    // Fade-in form
     gsap.fromTo(
       formRef.current,
       { opacity: 0, y: 50 },
@@ -38,6 +43,7 @@ const Form = () => {
       );
     });
 
+    // Hover scaling for button
     if (buttonRef.current) {
       buttonRef.current.addEventListener("mouseenter", () =>
         gsap.to(buttonRef.current, {
@@ -55,14 +61,8 @@ const Form = () => {
       );
     }
 
-    // Mouse Parallax + Tilt
-    const handleMouseMove = (e) => {
-      if (!bgRef.current) return;
-      const { innerWidth, innerHeight } = window;
-      const x = (e.clientX / innerWidth - 0.5) * 40; // stronger shift
-      const y = (e.clientY / innerHeight - 0.5) * 40;
-      const rotX = (e.clientY / innerHeight - 0.5) * -10; // tilt X
-      const rotY = (e.clientX / innerWidth - 0.5) * 10; // tilt Y
+    // Parallax + Tilt
+    const updateParallax = (x, y, rotX, rotY) => {
       gsap.to(bgRef.current, {
         x,
         y,
@@ -74,28 +74,28 @@ const Form = () => {
         ease: "power2.out",
       });
     };
-    window.addEventListener("mousemove", handleMouseMove);
 
-    // Gyroscope Tilt
-    const handleOrientation = (event) => {
-      if (!bgRef.current) return;
-      const { gamma, beta } = event;
+    const handleMouseMove = (e) => {
+      const { innerWidth, innerHeight } = window;
+      const x = (e.clientX / innerWidth - 0.5) * 40;
+      const y = (e.clientY / innerHeight - 0.5) * 40;
+      const rotX = (e.clientY / innerHeight - 0.5) * -10;
+      const rotY = (e.clientX / innerWidth - 0.5) * 10;
+      updateParallax(x, y, rotX, rotY);
+    };
+
+    const handleOrientation = ({ gamma, beta }) => {
       const x = (gamma / 45) * 40;
       const y = (beta / 45) * 40;
       const rotX = (beta / 45) * -15;
       const rotY = (gamma / 45) * 15;
-      gsap.to(bgRef.current, {
-        x,
-        y,
-        rotationX: rotX,
-        rotationY: rotY,
-        transformPerspective: 1200,
-        transformOrigin: "center",
-        duration: 0.6,
-        ease: "power2.out",
-      });
+      updateParallax(x, y, rotX, rotY);
     };
-    window.addEventListener("deviceorientation", handleOrientation);
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("deviceorientation", handleOrientation, {
+      passive: true,
+    });
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
@@ -103,7 +103,9 @@ const Form = () => {
     };
   }, []);
 
-  const setInputRef = (el, idx) => (inputsRef.current[idx] = el);
+  const setInputRef = (el, idx) => {
+    inputsRef.current[idx] = el;
+  };
 
   return (
     <div
@@ -115,158 +117,130 @@ const Form = () => {
         justifyContent: "center",
         overflow: "hidden",
         position: "relative",
-        padding: "40px 20px",   
-        // marginTop: "40px",
+        padding: "40px 20px",
       }}
     >
-      {/* Background */}
+      {/* Preloaded Background */}
       <div
         ref={bgRef}
         style={{
           position: "absolute",
           top: "-5%",
           left: "-5%",
-          width: "120%",   // zoomed in
-          height: "120%",  // zoomed in
+          width: "120%",
+          height: "120%",
           backgroundImage: `url(${bgimg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
           willChange: "transform",
           zIndex: -1,
         }}
       />
 
       {/* Responsive Form */}
-<div
-  style={{
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    minHeight: "100vh", // takes full screen height
-    width: "100%",
-    padding: "20px", // spacing so it doesn’t touch screen edges
-    boxSizing: "border-box",
-  }}
->
-  <form
-    ref={formRef}
-    style={{
-      background: "rgba(255,255,255,0.98)",
-      padding: "28px 24px",
-      borderRadius: 16,
-      boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-      width: "100%",
-      maxWidth: 440,
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr",
-      gap: "14px 18px",
-    }}
-  >
-    <input
-      ref={(el) => setInputRef(el, 0)}
-      type="text"
-      placeholder="First name"
-      style={inputStyle}
-      required
-    />
-    <input
-      ref={(el) => setInputRef(el, 1)}
-      type="text"
-      placeholder="Last name"
-      style={inputStyle}
-      required
-    />
-    <input
-      ref={(el) => setInputRef(el, 2)}
-      type="email"
-      placeholder="Email address"
-      style={{ ...inputStyle, gridColumn: "span 2" }}
-      required
-    />
-    <input
-      ref={(el) => setInputRef(el, 3)}
-      type="tel"
-      placeholder="Contact"
-      style={{ ...inputStyle, gridColumn: "span 2" }}
-      required
-    />
-    <textarea
-      ref={(el) => setInputRef(el, 4)}
-      placeholder="Feel free to ask"
-      style={{
-        ...inputStyle,
-        gridColumn: "span 2",
-        resize: "none",
-        minHeight: 90,
-        fontFamily: "inherit",
-      }}
-      required
-    />
-    <button
-      ref={buttonRef}
-      type="submit"
-      style={{
-        gridColumn: "span 2",
-        backgroundColor: "#ffc107",
-        border: "none",
-        borderRadius: 8,
-        padding: "16px 0",
-        fontWeight: "bold",
-        fontSize: "1.08rem",
-        cursor: "pointer",
-        marginTop: 7,
-        width: "100%",
-      }}
-    >
-      Read More →
-    </button>
-
-    <style>{`
-      /* Phones: stack everything */
-      @media (max-width: 425px) {
-        form {
-          grid-template-columns: 1fr !important;
-        }
-        form input,
-        form textarea,
-        form button {
-          grid-column: span 1 !important;
-        }
-      }
-
-      /* Tablets & small screens */
-      @media (min-width: 426px) and (max-width: 768px) {
-        form {
-          grid-template-columns: 1fr 1fr;
-        }
-        form input[type="email"],
-        form input[type="tel"],
-        form textarea,
-        form button {
-          grid-column: span 2;
-        }
-      }
-
-      /* Large screens */
-      @media (min-width: 769px) {
-        form {
-          grid-template-columns: 1fr 1fr;
-        }
-      }
-    `}</style>
-  </form>
-</div>
-
-
-
-      <style>{`
-        @media (max-width: 768px) {
-          form {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+          width: "100%",
+          padding: "20px",
+          boxSizing: "border-box",
+        }}
+      >
+        <form
+          ref={formRef}
+          style={{
+            background: "rgba(255,255,255,0.98)",
+            padding: "28px 24px",
+            borderRadius: 16,
+            boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+            width: "100%",
+            maxWidth: 440,
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "14px 18px",
+          }}
+        >
+          <input
+            ref={(el) => setInputRef(el, 0)}
+            type="text"
+            placeholder="First name"
+            style={inputStyle}
+            required
+          />
+          <input
+            ref={(el) => setInputRef(el, 1)}
+            type="text"
+            placeholder="Last name"
+            style={inputStyle}
+            required
+          />
+          <input
+            ref={(el) => setInputRef(el, 2)}
+            type="email"
+            placeholder="Email address"
+            style={{ ...inputStyle, gridColumn: "span 2" }}
+            required
+          />
+          <input
+            ref={(el) => setInputRef(el, 3)}
+            type="tel"
+            placeholder="Contact"
+            style={{ ...inputStyle, gridColumn: "span 2" }}
+            required
+          />
+          <textarea
+            ref={(el) => setInputRef(el, 4)}
+            placeholder="Feel free to ask"
+            style={{
+              ...inputStyle,
+              gridColumn: "span 2",
+              resize: "none",
+              minHeight: 90,
+              fontFamily: "inherit",
+            }}
+            required
+          />
+          <button
+            ref={buttonRef}
+            type="submit"
+            style={{
+              gridColumn: "span 2",
+              backgroundColor: "#ffc107",
+              border: "none",
+              borderRadius: 8,
+              padding: "16px 0",
+              fontWeight: "bold",
+              fontSize: "1.08rem",
+              cursor: "pointer",
+              marginTop: 7,
+              width: "100%",
+            }}
+          >
+            Read More →
+          </button>
+          <style>{`
+            @media (max-width: 425px) {
+              form {
+                grid-template-columns: 1fr !important;
+              }
+              form input, form textarea, form button {
+                grid-column: span 1 !important;
+              }
+            }
+            @media (min-width: 426px) and (max-width: 768px) {
+              form {
+                grid-template-columns: 1fr 1fr;
+              }
+              form input[type="email"], form input[type="tel"], form textarea, form button {
+                grid-column: span 2;
+              }
+            }
+          `}</style>
+        </form>
+      </div>
     </div>
   );
 };

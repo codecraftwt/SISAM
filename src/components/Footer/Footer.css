@@ -9,3 +9,157 @@
 }
 
 }
+
+.footer-container {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+.footer-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.contact-help {
+  position: relative;
+  z-index: 1;
+  margin: 40px auto;
+  background: #ffbc00;
+  border-radius: 14px;
+  padding: 24px 32px;
+  max-width: 1100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 7px 24px rgba(0, 0, 0, 0.14);
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.contact-text h3 {
+  margin: 0;
+  font-weight: bold;
+}
+
+.contact-text p {
+  margin: 4px 0 0;
+  font-weight: 600;
+}
+
+.contact-form {
+  display: flex;
+  gap: 12px;
+}
+
+.contact-form input {
+  padding: 12px 16px;
+  border-radius: 5px;
+  border: none;
+  font-size: 15px;
+  min-width: 180px;
+}
+
+.contact-form button {
+  background: #0a3a75;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 24px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.footer-sections {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 40px;
+  padding: 60px 20px 0;
+}
+
+.footer-logo-section {
+  flex: 0 0 260px;
+}
+
+.footer-logo-section img {
+  width: 75px;
+  height: 75px;
+  object-fit: contain;
+  border-radius: 7px;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);
+}
+
+.footer-logo-section p {
+  margin: 16px 0 0;
+  font-size: 17px;
+  opacity: 0.8;
+}
+
+.social-icons {
+  display: flex;
+  gap: 20px;
+  margin-top: 16px;
+  font-size: 24px;
+}
+
+.footer-link,
+.footer-section {
+  flex: 0 0 240px;
+}
+
+.footer-link ul {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+}
+
+.footer-link li {
+  margin-bottom: 8px;
+}
+
+.footer-link a,
+.footer-section p {
+  color: #fff;
+  opacity: 0.9;
+  text-decoration: none;
+}
+
+.footer-section h4,
+.footer-link h4 {
+  margin-bottom: 12px;
+}
+
+.footer-section p {
+  margin: 4px 0;
+  font-size: 15px;
+  opacity: 0.8;
+}
+
+.footer-copyright {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 13px;
+  letter-spacing: 1px;
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .contact-help {
+    display: none;
+  }
+  .footer-sections {
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+}

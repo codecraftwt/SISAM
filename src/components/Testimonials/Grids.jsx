@@ -10,14 +10,17 @@ export default function Scroll3DSection() {
   const textsRef = useRef([]);
   const videosRef = useRef([]);
   const shimmerRef = useRef(null);
+  const tlText = useRef(null);
+  const tlVideo = useRef(null);
 
   const videoSources = [
-    "https://www.pexels.com/download/video/4477603/", 
-    "https://www.pexels.com/download/video/10451873/", 
-    "https://www.pexels.com/download/video/32750419/", 
+    "https://www.pexels.com/download/video/4477603/",
+    "https://www.pexels.com/download/video/10451873/",
+    "https://www.pexels.com/download/video/32750419/",
     "https://www.pexels.com/download/video/28075120/"
   ];
 
+  // ScrollTrigger to update sectionIndex
   useEffect(() => {
     if (!containerRef.current) return;
     const ctx = gsap.context(() => {
@@ -25,7 +28,7 @@ export default function Scroll3DSection() {
         trigger: containerRef.current,
         start: "top top",
         end: "bottom bottom",
-        scrub: true,
+        scrub: 0.5, // smoother scrub
         onUpdate: (self) => {
           const idx = Math.min(3, Math.floor(self.progress * 4));
           setSectionIndex(idx);
@@ -36,65 +39,75 @@ export default function Scroll3DSection() {
     return () => ctx.revert();
   }, []);
 
+  // Animate text blocks
   useEffect(() => {
-    const current = textsRef.current[sectionIndex];
-    if (!current) return;
+    if (tlText.current) tlText.current.kill();
+    tlText.current = gsap.timeline();
     textsRef.current.forEach((el, i) => {
-      if (el) el.style.opacity = i === sectionIndex ? "1" : "0";
-    });
-    ["headline", "subheader", "body"].forEach((cls, i) => {
-      const el = current.querySelector(`.${cls}`);
-      if (el) {
-        gsap.fromTo(
-          el,
-          { opacity: 0, y: 12, filter: "blur(6px)" },
-          {
-            opacity: 1,
-            y: 0,
-            filter: "blur(0)",
-            duration: 0.6,
-            ease: "power3.out",
-            delay: 0.3 * i
-          }
-        );
-      }
+      if (!el) return;
+      const isActive = i === sectionIndex;
+      tlText.current.to(
+        el,
+        {
+          opacity: isActive ? 1 : 0,
+          y: isActive ? 0 : 12,
+          filter: isActive ? "blur(0px)" : "blur(6px)",
+          duration: 0.6,
+          ease: "power3.out"
+        },
+        0
+      );
     });
   }, [sectionIndex]);
 
-  useEffect(() => {
-    if (!videosRef.current.length) return;
-    const total = videosRef.current.length;
-
-    shimmerRef.current.style.opacity = 1;
-    setTimeout(() => {
-      if (shimmerRef.current) shimmerRef.current.style.opacity = 0;
-    }, 400);
-
-    videosRef.current.forEach((vid, idx) => {
-      if (!vid) return;
-      if (idx === sectionIndex) {
-        vid.style.opacity = "1";
-        vid.style.zIndex = "2";
-        vid.pause();
-        vid.currentTime = 0;
-        vid.play().catch(() => {});
-      } else {
-        vid.style.opacity = "0";
-        vid.style.zIndex = "1";
-        vid.pause();
-      }
-    });
-  }, [sectionIndex]);
-
+  // Preload videos once
   useEffect(() => {
     videosRef.current.forEach((vid) => {
       if (!vid) return;
+      vid.preload = "auto";
+      vid.load();
       vid.play().then(() => {
         vid.pause();
         vid.currentTime = 0;
       }).catch(() => {});
     });
   }, []);
+
+  // Animate video opacity and play
+  useEffect(() => {
+    if (tlVideo.current) tlVideo.current.kill();
+    tlVideo.current = gsap.timeline();
+    videosRef.current.forEach((vid, idx) => {
+      if (!vid) return;
+      const isActive = idx === sectionIndex;
+      tlVideo.current.to(
+        vid,
+        {
+          opacity: isActive ? 1 : 0,
+          zIndex: isActive ? 2 : 1,
+          duration: 0.5,
+          ease: "power2.out",
+          onStart: () => {
+            if (isActive) {
+              vid.currentTime = 0;
+              vid.play().catch(() => {});
+              shimmerRef.current.style.opacity = 1;
+            }
+          },
+          onComplete: () => {
+            if (isActive) {
+              gsap.to(shimmerRef.current, {
+                opacity: 0,
+                duration: 0.2,
+                ease: "power2.out"
+              });
+            }
+          }
+        },
+        0
+      );
+    });
+  }, [sectionIndex]);
 
   return (
     <div ref={containerRef} className="scroll3d-container">
@@ -126,13 +139,12 @@ export default function Scroll3DSection() {
                 muted
                 loop
                 playsInline
-                autoPlay
+                autoPlay={false}
                 preload="auto"
                 src={src}
                 style={{
                   opacity: i === 0 ? 1 : 0,
-                  zIndex: i === 0 ? 2 : 1,
-                  transition: "opacity 0.2s ease"
+                  zIndex: i === 0 ? 2 : 1
                 }}
               />
             ))}
@@ -161,27 +173,26 @@ export default function Scroll3DSection() {
           height: 100%;
         }
         .scroll3d-text {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center; /* center container */
-  position: relative;
-}
-
-.text-block {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* center the text-block div */
-  text-align: left; /* left align text inside */
-  pointer-events: none;
-  max-width: 350px; /* control text width */
-}
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+        }
+        .text-block {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: left;
+          pointer-events: none;
+          max-width: 350px;
+        }
         .headline {
           font-size: clamp(1.8rem, 3vw, 3rem);
           font-weight: 700;
           color: #013567;
-          line-height:1;
+          line-height: 1;
         }
         .subheader,
         .body {
@@ -203,8 +214,7 @@ export default function Scroll3DSection() {
           object-fit: cover;
           opacity: 0;
           z-index: 1;
-          transition: opacity 0.2s ease;
-          pointer-events: none; /* To avoid interaction issues */
+          pointer-events: none;
         }
         .shimmer-overlay {
           position: absolute;
@@ -218,10 +228,8 @@ export default function Scroll3DSection() {
             transparent 80%
           );
           background-size: 200% 200%;
-          animation: shimmer 0.8s ease-out forwards;
           opacity: 0;
           pointer-events: none;
-          transition: opacity 0.3s ease;
           z-index: 10;
         }
         @keyframes shimmer {

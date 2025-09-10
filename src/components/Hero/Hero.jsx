@@ -26,9 +26,7 @@ const Hero = React.memo(() => {
   const [earthScale] = useState(1.8);
 
   useEffect(() => {
-    // Preload Earth model assets
     const preloadAssets = async () => {
-      // Preload textures
       const textureLoader = new THREE.TextureLoader();
       const textures = [
         "/textures/earth_daymap.jpg",
@@ -38,7 +36,6 @@ const Hero = React.memo(() => {
       ];
       textures.forEach(url => textureLoader.load(url));
 
-      // Preload GLTF models
       useGLTF.preload("/assets/GlbModels/aeroplane.glb");
       useGLTF.preload("/assets/GlbModels/ship.glb");
       useGLTF.preload("/assets/GlbModels/cargotruck.glb");
@@ -51,7 +48,7 @@ const Hero = React.memo(() => {
     gsap.set(textContentRef.current, { x: 0, opacity: 1 });
     gsap.set(illustrationRef.current, { x: 0, opacity: 1, scale: 1 });
     gsap.set(ctaButtonRef.current, { y: 0, opacity: 1, scale: 1 });
-    gsap.set(heroContentRef.current, { y: 0, opacity: 1,delay:9 });
+    gsap.set(heroContentRef.current, { y: 0, opacity: 1, delay: 9 });
 
     // Hover scale animation for CTA button remains the same
     const handleEnter = () => {
@@ -132,7 +129,7 @@ const Hero = React.memo(() => {
             <directionalLight position={[10, 12, 5]} intensity={10} />
             <pointLight position={[-10, -10, -5]} intensity={0.9} />
 
-              <Earth position={earthPosition} scale={earthScale} />
+            <Earth position={earthPosition} scale={earthScale} />
           </Canvas>
         </div>
 
